@@ -60,7 +60,7 @@ export const ProfilePage = () => {
             <div className="space-y-4">
               <div className="flex items-center">
                 <Mail className="w-5 h-5 mr-4 text-gray-400" />
-                <p className="text-white font-semibold">john.doe@example.com</p>
+                <p className="text-white font-semibold">{userData.email}</p>
               </div>
               <div className="flex items-center">
                 <Calendar className="w-5 h-5 mr-4 text-gray-400" />

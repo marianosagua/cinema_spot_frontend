@@ -1,24 +1,22 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { login } from "@/api/services";
-import { useNavigate } from "react-router-dom";
-import { emitAuthChangeEvent } from "../layout/AppLayout";
+import { useAuthStore } from "@/hooks/useAuthStore";
 
-export const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+export interface FormRegisterInput {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const response = await login(email, password);
+export const RegisterPage = () => {
+  const { register, handleSubmit } = useForm<FormRegisterInput>();
+  const { setRegisterUser } = useAuthStore();
 
-    if (response) {
-      emitAuthChangeEvent();
-      navigate("/");
-    }
+  const onSubmit = async (data: FormRegisterInput) => {
+    setRegisterUser(data);
   };
 
   return (
@@ -35,9 +33,33 @@ export const LoginPage = () => {
           transition={{ delay: 0.2, duration: 0.5 }}
           className="text-4xl font-bold text-center text-zinc-50 mb-8"
         >
-          Login
+          Register
         </motion.h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <motion.div
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            <Input
+              type="text"
+              placeholder="First Name"
+              {...register("first_name", { required: true })}
+              className="w-full bg-gray-900 text-white border-zinc-700 focus:ring-blue-900"
+            />
+          </motion.div>
+          <motion.div
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            <Input
+              type="text"
+              placeholder="Last Name"
+              {...register("last_name", { required: true })}
+              className="w-full bg-gray-900 text-white border-zinc-700 focus:ring-blue-900"
+            />
+          </motion.div>
           <motion.div
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -45,9 +67,8 @@ export const LoginPage = () => {
           >
             <Input
               type="email"
-              placeholder="Correo electrónico"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              {...register("email", { required: true })}
               className="w-full bg-gray-900 text-white border-zinc-700 focus:ring-blue-900"
             />
           </motion.div>
@@ -58,9 +79,8 @@ export const LoginPage = () => {
           >
             <Input
               type="password"
-              placeholder="Contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              {...register("password", { required: true, minLength: 6 })}
               className="w-full bg-gray-900 text-white border-zinc-700 focus:ring-blue-900"
             />
           </motion.div>
@@ -73,7 +93,7 @@ export const LoginPage = () => {
               type="submit"
               className="w-full bg-gray-900 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105"
             >
-              Iniciar Sesión
+              Register
             </Button>
           </motion.div>
         </form>
@@ -83,9 +103,9 @@ export const LoginPage = () => {
           transition={{ delay: 0.6, duration: 0.5 }}
           className="mt-4 text-center text-gray-400"
         >
-          ¿No tienes una cuenta?{" "}
-          <a href="/register" className="text-blue-900 hover:underline">
-            Regístrate
+          Already have an account?{" "}
+          <a href="/auth/login" className="text-blue-900 hover:underline">
+            Login
           </a>
         </motion.p>
       </motion.div>

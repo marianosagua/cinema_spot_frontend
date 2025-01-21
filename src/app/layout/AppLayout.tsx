@@ -1,33 +1,13 @@
+import { useAuthStore } from "@/hooks/useAuthStore";
 import { Home, LogIn, User, UserRoundPlus } from "lucide-react";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-export const emitAuthChangeEvent = () => {
-  const event = new Event("authChange");
-  window.dispatchEvent(event);
-};
-
 export const AppLayout: React.FC<LayoutProps> = ({ children }) => {
-  const [isLogged, setisLogged] = useState<boolean>();
-
-  useEffect(() => {
-    const checkAuth = () => {
-      const token = localStorage.getItem("authToken");
-      const isLoggedIn = !!token;
-      setisLogged(isLoggedIn);
-    };
-
-    checkAuth();
-    window.addEventListener("authChange", checkAuth);
-
-    return () => {
-      window.removeEventListener("authChange", checkAuth);
-    };
-  }, []);
+  const { isLogged } = useAuthStore();
 
   return (
     <div className="bg-black text-white min-h-screen flex flex-col">

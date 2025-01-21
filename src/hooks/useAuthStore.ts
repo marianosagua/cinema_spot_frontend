@@ -29,12 +29,16 @@ export const useAuthStore = () => {
     );
 
     if (status === 200) {
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("userData", JSON.stringify(data.user));
       dispatch(login(data));
       navigate("/");
     }
   };
 
   const setLogoutUser = (): void => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userData");
     dispatch(logout());
     navigate("/");
   };

@@ -22,15 +22,11 @@ export const authSlice = createSlice({
       state.token = token;
       state.userData = user;
       state.isLogged = true;
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("userData", JSON.stringify(user));
     },
     logout: (state) => {
-      state.userData = initialState.userData;
-      state.isLogged = initialState.isLogged;
-      state.token = initialState.token;
-      localStorage.removeItem("token");
-      localStorage.removeItem("userData");
+      state.userData = {};
+      state.isLogged = false;
+      state.token = "";
     },
   },
 });

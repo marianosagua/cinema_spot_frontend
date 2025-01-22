@@ -9,8 +9,6 @@ This project is the frontend for a Movie Reservation System. It is built using R
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
 - [Available Scripts](#available-scripts)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 

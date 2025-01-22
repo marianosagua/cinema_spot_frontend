@@ -11,8 +11,7 @@ export const getShowtime = async (id: string | undefined) => {
   return response.data;
 };
 
-export const getSeatsByShowtime = async (room: string | undefined) => {
-  const dataRoom = await axios.get(`${apiUrl}/api/seats/rooms/${room}`);
-  const dataSeats = await axios.get(`${apiUrl}/api/seats/${dataRoom.data.id}`);
-  return dataSeats.data;
+export const getSeatsByRoom = async (room: string | undefined) => {
+  const seats = await axios.get(`${apiUrl}/api/seats/room/${room}`);
+  return seats.data;
 };

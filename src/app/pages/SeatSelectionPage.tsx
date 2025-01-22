@@ -4,8 +4,10 @@ import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { getSeatsByShowtime, getShowtime } from "@/api/services";
+import { getMovie, getSeatsByRoom, getShowtime } from "@/api/services";
 import { Seat } from "@/interfaces/seat";
+import { useReservationStore } from "@/hooks/useReservationStore";
+import { Movie, Showtime } from "@/interfaces";
 
 const itemVariants = {
   hidden: { scale: 0.8, opacity: 0 },
@@ -20,6 +22,7 @@ export const SeatSelectionPage = () => {
   const navigate = useNavigate();
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
   const [seats, setseats] = useState<Seat[]>();
+  const { setAddReservation } = useReservationStore();
 
   const toggleSeat = (seatId: number) => {
     if (selectedSeats.includes(seatId)) {
@@ -32,11 +35,30 @@ export const SeatSelectionPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getShowtime(showtimeId);
-      const dataSeats = await getSeatsByShowtime(data.room);
+      const dataSeats = await getSeatsByRoom(data.room);
       setseats(dataSeats);
     };
     fetchData();
   }, []);
+
+  const handleClick = async () => {
+    const movieData: Movie = await getMovie(Number(id));
+    const showtime: Showtime = await getShowtime(showtimeId);
+    const seats: Seat[] = await getSeatsByRoom(showtime.room);
+    const seatsFiltered = seats.filter((seat) => {
+      return selectedSeats.includes(seat.seat_number);
+    });
+
+    const data = {
+      movie: movieData,
+      showtime: showtime,
+      seats: seatsFiltered,
+      price: selectedSeats.length * 10,
+    };
+
+    setAddReservation(data);
+    navigate("/reservation");
+  };
 
   return (
     <div className="max-w-4xl mx-auto space-y-12">
@@ -82,13 +104,7 @@ export const SeatSelectionPage = () => {
           <Button
             className="bg-gray-800 text-white py-2 px-6 rounded-md shadow-md hover:bg-gray-700 transition-all duration-300 ease-in-out"
             disabled={selectedSeats.length === 0}
-            onClick={() =>
-              navigate(
-                `/reservation?seats=${selectedSeats.join(
-                  ","
-                )}&movieId=${id}&showtimeId=${showtimeId}`
-              )
-            }
+            onClick={handleClick}
           >
             Proceed to Payment
             <ChevronRight className="ml-2 w-5 h-5" />

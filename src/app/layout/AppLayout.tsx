@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/toaster";
 import { useAuthStore } from "@/hooks/useAuthStore";
 import { Home, LogIn, User, UserRoundPlus } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -66,6 +67,7 @@ export const AppLayout: React.FC<LayoutProps> = ({ children }) => {
         </nav>
       </header>
       <main className="flex-grow container mx-auto px-4 py-8">{children}</main>
+      <Toaster />
       <footer className="bg-black border-t border-gray-800 py-6 text-center">
         <div className="container mx-auto px-4">
           <p className="text-gray-400">&copy; 2023 MRS. All rights reserved.</p>

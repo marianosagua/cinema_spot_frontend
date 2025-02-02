@@ -1,5 +1,5 @@
-import { User } from "@/interfaces";
 import { createSlice } from "@reduxjs/toolkit";
+import { User } from "../../interfaces/user";
 
 export interface AuthState {
   userData: User;

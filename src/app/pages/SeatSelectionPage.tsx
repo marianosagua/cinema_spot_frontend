@@ -8,6 +8,7 @@ import { getMovie, getSeatsByRoom, getShowtime } from "@/api/services";
 import { Seat } from "@/interfaces/seat";
 import { useReservationStore } from "@/hooks/useReservationStore";
 import { Movie, Showtime } from "@/interfaces";
+import { useAuthStore } from "@/hooks/useAuthStore";
 
 const itemVariants = {
   hidden: { scale: 0.8, opacity: 0 },
@@ -23,8 +24,14 @@ export const SeatSelectionPage = () => {
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
   const [seats, setseats] = useState<Seat[]>();
   const { setAddReservation } = useReservationStore();
+  const { isLogged } = useAuthStore();
 
   const toggleSeat = (seatId: number) => {
+    if (!isLogged) {
+      navigate("/auth/login");
+      return;
+    }
+
     if (selectedSeats.includes(seatId)) {
       setSelectedSeats(selectedSeats.filter((id) => id !== seatId));
     } else {

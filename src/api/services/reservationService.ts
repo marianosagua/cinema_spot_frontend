@@ -12,3 +12,13 @@ export const updateSeat = async (id: string, data: Seat) => {
   const response = await axios.put(`${apiUrl}/api/seats/${id}/`, data);
   return response.data;
 };
+
+export const getReservationsByUser = async (user: string) => {
+  const response = await axios.get(`${apiUrl}/api/reservations/user/${user}`);
+  return response.data;
+};
+
+export const deleteReservationDB = async (id: string) => {
+  const response = await axios.delete(`${apiUrl}/api/reservations/${id}`);
+  return response.data;
+};

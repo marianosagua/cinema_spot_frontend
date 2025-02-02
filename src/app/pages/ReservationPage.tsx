@@ -10,6 +10,7 @@ import { useReservationStore } from "@/hooks/useReservationStore";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { addReservationDB, updateSeat } from "@/api/services";
+import { useNavigate } from "react-router-dom";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -33,29 +34,43 @@ export const ReservationPage = () => {
   const { movie, showtime, seats, price, userReservation } =
     useReservationStore();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleClick = async () => {
-    await Promise.all([
-      seats?.map((seat) =>
-        addReservationDB({
-          user_id: userReservation?.id,
-          showtime_id: showtime?.id,
-          seat: seat.id,
-        })
-      ),
-    ]);
+    try {
+      await Promise.all([
+        seats?.map((seat) =>
+          addReservationDB({
+            user_id: userReservation?.id,
+            showtime_id: showtime?.id,
+            seat: seat.id,
+          })
+        ),
+      ]);
 
-    await Promise.all([
-      seats?.map((seat) =>
-        updateSeat(seat.id, { ...seat, is_available: false })
-      ),
-    ]);
+      await Promise.all([
+        seats?.map((seat) =>
+          updateSeat(seat.id, { ...seat, is_available: false })
+        ),
+      ]);
 
-    toast({
-      variant: "default",
-      title: "Reservation Completed",
-      description: "Your reservation has been completed successfully.",
-    });
+      toast({
+        variant: "default",
+        title: "Reservation Completed",
+        description: "Your reservation has been completed successfully.",
+      });
+
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    } catch (error) {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "An error occurred while completing the reservation.",
+      });
+    }
   };
 
   return (

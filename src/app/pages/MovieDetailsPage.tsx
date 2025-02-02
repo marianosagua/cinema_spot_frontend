@@ -33,6 +33,10 @@ export const MovieDetailsPage = () => {
   const [showtimes, setshowtimes] = useState<Showtime[] | null>(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       const data = await Promise.all([
         getMovie(Number(id)),

@@ -31,8 +31,14 @@ const itemVariants = {
 };
 
 export const ReservationPage = () => {
-  const { movie, showtime, seats, price, userReservation } =
-    useReservationStore();
+  const {
+    movie,
+    showtime,
+    seats,
+    price,
+    userReservation,
+    setResetReservation,
+  } = useReservationStore();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -71,6 +77,11 @@ export const ReservationPage = () => {
         description: "An error occurred while completing the reservation.",
       });
     }
+  };
+
+  const handleClickCancel = async () => {
+    setResetReservation();
+    navigate("/");
   };
 
   return (
@@ -118,6 +129,12 @@ export const ReservationPage = () => {
               className="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
             >
               Complete Reservation
+            </Button>
+            <Button
+              onClick={handleClickCancel}
+              className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 ml-4"
+            >
+              Cancel
             </Button>
           </CardFooter>
         </Card>

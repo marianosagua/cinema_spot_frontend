@@ -22,3 +22,12 @@ export const deleteReservationDB = async (id: string) => {
   const response = await axios.delete(`${apiUrl}/api/reservations/${id}`);
   return response.data;
 };
+
+export const getReservations = async (token: string) => {
+  const response = await axios.get(`${apiUrl}/api/reservations/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};

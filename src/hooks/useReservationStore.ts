@@ -1,6 +1,9 @@
 import { addReservation } from "@/store/slices";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { ReservationState } from "../store/slices/reservationSlice";
+import {
+  ReservationState,
+  resetReservation,
+} from "../store/slices/reservationSlice";
 
 export const useReservationStore = () => {
   const { movie, showtime, seats, price, userReservation } = useAppSelector(
@@ -12,8 +15,13 @@ export const useReservationStore = () => {
     dispatch(addReservation(data));
   };
 
+  const setResetReservation = () => {
+    dispatch(resetReservation());
+  };
+
   return {
     setAddReservation,
+    setResetReservation,
 
     movie,
     showtime,

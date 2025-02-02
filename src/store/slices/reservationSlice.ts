@@ -70,8 +70,9 @@ export const reservationSlice = createSlice({
       };
       state.seats = [];
       state.price = 0;
+      state.userReservation = undefined;
     },
   },
 });
 
-export const { addReservation } = reservationSlice.actions;
+export const { addReservation, resetReservation } = reservationSlice.actions;

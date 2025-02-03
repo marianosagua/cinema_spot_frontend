@@ -89,7 +89,7 @@ export const ProfilePage: React.FC = () => {
       return;
     }
 
-    if(newRoleData.newRole !== "ADMIN" && newRoleData.newRole !== "USER") {
+    if (newRoleData.newRole !== "ADMIN" && newRoleData.newRole !== "USER") {
       toast({
         title: "Invalid Role",
         description: "Role must be either 'ADMIN' or 'USER'.",
@@ -97,12 +97,7 @@ export const ProfilePage: React.FC = () => {
       return;
     }
 
-    const response = await assignRole(
-      newRoleData.userId,
-      newRoleData.newRole,
-      token
-    );
-    console.log(response);
+    await assignRole(newRoleData.userId, newRoleData.newRole, token);
     setNewRoleData({ userId: "", newRole: "" });
 
     toast({

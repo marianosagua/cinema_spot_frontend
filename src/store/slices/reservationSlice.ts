@@ -1,4 +1,4 @@
-import { Movie, Seat, Showtime, User } from "@/interfaces";
+import { Movie, Seat, Showtime } from "@/interfaces";
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface ReservationState {
@@ -6,16 +6,10 @@ export interface ReservationState {
   showtime?: Showtime;
   seats?: Seat[];
   price?: number;
-  userReservation?: User;
 }
 
 const getSessionItem = (key: string) => {
   const item = sessionStorage.getItem(key);
-  return item ? JSON.parse(item) : null;
-};
-
-const getLocalItem = (key: string) => {
-  const item = localStorage.getItem(key);
   return item ? JSON.parse(item) : null;
 };
 
@@ -26,7 +20,6 @@ const initialState: ReservationState = {
   price: sessionStorage.getItem("price")
     ? parseFloat(sessionStorage.getItem("price")!)
     : 0,
-  userReservation: getLocalItem("userData"),
 };
 
 export const reservationSlice = createSlice({
@@ -70,7 +63,6 @@ export const reservationSlice = createSlice({
       };
       state.seats = [];
       state.price = 0;
-      state.userReservation = undefined;
     },
   },
 });

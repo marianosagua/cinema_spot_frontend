@@ -1,7 +1,6 @@
-import { useAppSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { apiUrl } from "@/api/variables";
 import axios, { AxiosError } from "axios";
-import { useDispatch } from "react-redux";
 import { login, logout } from "@/store/slices";
 import { useNavigate } from "react-router-dom";
 import { FormRegisterInput } from "@/app/auth/pages";
@@ -9,7 +8,7 @@ import { useToast } from "./use-toast";
 
 export const useAuthStore = () => {
   const { userData, isLogged, token } = useAppSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -69,6 +68,8 @@ export const useAuthStore = () => {
         }
       );
 
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("userData", JSON.stringify(data.user));
       dispatch(login(data));
       navigate("/");
     } catch (error) {

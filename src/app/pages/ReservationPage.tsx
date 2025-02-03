@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { addReservationDB, updateSeat } from "@/api/services";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/hooks/useAuthStore";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -31,28 +32,19 @@ const itemVariants = {
 };
 
 export const ReservationPage = () => {
-  const {
-    movie,
-    showtime,
-    seats,
-    price,
-    userReservation,
-    setResetReservation,
-  } = useReservationStore();
+  const { movie, showtime, seats, price, setResetReservation } =
+    useReservationStore();
+  const { userData } = useAuthStore();
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const handleClick = async () => {
     try {
-      await Promise.all([
-        seats?.map((seat) =>
-          addReservationDB({
-            user_id: userReservation?.id,
-            showtime_id: showtime?.id,
-            seat: seat.id,
-          })
-        ),
-      ]);
+      addReservationDB({
+        user_id: userData?.id,
+        showtime_id: showtime?.id,
+        seat_ids: seats?.map((seat) => seat.id),
+      });
 
       await Promise.all([
         seats?.map((seat) =>

@@ -1,17 +1,13 @@
-import { motion } from "framer-motion";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useReservationStore } from "@/hooks/useReservationStore";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
-import { addReservationDB, updateSeat } from "@/api/services";
-import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "@/hooks/useAuthStore";
+import React from "react"
+import { motion } from "framer-motion"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { useReservationStore } from "@/hooks/useReservationStore"
+import { Button } from "@/components/ui/button"
+import { addReservationDB, updateSeat } from "@/api/services"
+import { useNavigate } from "react-router-dom"
+import { useAuthStore } from "@/hooks/useAuthStore"
+import { Loader2 } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -21,64 +17,68 @@ const containerVariants = {
       staggerChildren: 0.1,
     },
   },
-};
+}
 
 const itemVariants = {
   hidden: { y: 20, opacity: 0 },
   visible: {
     y: 0,
     opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 24,
+    },
   },
-};
+}
 
-export const ReservationPage = () => {
-  const { movie, showtime, seats, price, setResetReservation } =
-    useReservationStore();
-  const { userData } = useAuthStore();
-  const { toast } = useToast();
-  const navigate = useNavigate();
+export const ReservationPage: React.FC = () => {
+  const { movie, showtime, seats, price, setResetReservation } = useReservationStore()
+  const { userData } = useAuthStore()
+  const { toast } = useToast()
+  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleClick = async () => {
+  const handleComplete = async () => {
+    setIsLoading(true)
     try {
-      addReservationDB({
+      await addReservationDB({
         user_id: userData?.id,
         showtime_id: showtime?.id,
         seat_ids: seats?.map((seat) => seat.id),
-      });
+      })
 
-      await Promise.all([
-        seats?.map((seat) =>
-          updateSeat(seat.id, { ...seat, is_available: false })
-        ),
-      ]);
+      await Promise.all(seats?.map((seat) => updateSeat(seat.id, { ...seat, is_available: false })) || [])
 
       toast({
-        variant: "default",
         title: "Reservation Completed",
         description: "Your reservation has been completed successfully.",
-      });
+      })
 
       setTimeout(() => {
-        navigate("/");
-      }, 3000);
+        setResetReservation()
+        navigate("/")
+      }, 3000)
     } catch (error) {
-      console.error(error);
+      console.error(error)
       toast({
         variant: "destructive",
         title: "Error",
         description: "An error occurred while completing the reservation.",
-      });
+      })
+    } finally {
+      setIsLoading(false)
     }
-  };
+  }
 
-  const handleClickCancel = async () => {
-    setResetReservation();
-    navigate("/");
-  };
+  const handleCancel = () => {
+    setResetReservation()
+    navigate("/")
+  }
 
   return (
     <motion.div
-      className="max-w-2xl mx-auto space-y-8"
+      className="max-w-2xl mx-auto space-y-8 p-4"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -90,41 +90,41 @@ export const ReservationPage = () => {
         Reservation Confirmation
       </motion.h1>
       <motion.div variants={itemVariants}>
-        <Card className="bg-gray-900 border-zinc-700">
+        <Card className="bg-zinc-900 border-zinc-800 text-white">
           <CardHeader>
-            <CardTitle className="text-3xl font-semibold text-white">
-              Reservation Details
-            </CardTitle>
+            <CardTitle className="text-3xl font-semibold">Reservation Details</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="font-bold text-white">
+            <p className="font-bold">
               <span className="text-gray-400">Movie:</span> {movie?.title}
             </p>
-            <p className="font-bold text-white">
-              <span className="text-gray-400">Date:</span> June 1, 2023
+            <p className="font-bold">
+              <span className="text-gray-400">Date:</span> {new Date(showtime?.start_time || "").toLocaleDateString()}
             </p>
-            <p className="font-bold text-white">
-              <span className="text-gray-400">Time:</span>{" "}
-              {showtime?.start_time} - {showtime?.end_time}
+            <p className="font-bold">
+              <span className="text-gray-400">Time:</span> {new Date(showtime?.start_time || "").toLocaleTimeString()} -{" "}
+              {new Date(showtime?.end_time || "").toLocaleTimeString()}
             </p>
-            <p className="font-bold text-white">
-              <span className="text-gray-400">Seats:</span>{" "}
-              {seats?.map((seat) => seat.seat_number).join(", ")}
+            <p className="font-bold">
+              <span className="text-gray-400">Seats:</span> {seats?.map((seat) => seat.seat_number).join(", ")}
             </p>
-            <p className="text-xl font-bold text-white">
+            <p className="text-xl font-bold">
               <span className="text-gray-400">Total:</span> ${price}
             </p>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
             <Button
-              onClick={handleClick}
-              className="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+              onClick={handleComplete}
+              className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+              disabled={isLoading}
             >
+              {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
               Complete Reservation
             </Button>
             <Button
-              onClick={handleClickCancel}
-              className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 ml-4"
+              onClick={handleCancel}
+              className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+              disabled={isLoading}
             >
               Cancel
             </Button>
@@ -132,5 +132,6 @@ export const ReservationPage = () => {
         </Card>
       </motion.div>
     </motion.div>
-  );
-};
+  )
+}
+

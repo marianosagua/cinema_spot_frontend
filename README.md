@@ -8,6 +8,7 @@ This project is the frontend for a Movie Reservation System. It is built using R
 - [Technologies Used](#technologies-used)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
+- [Screenshots](#screenshots)
 - [Available Scripts](#available-scripts)
 
 ## Features
@@ -54,6 +55,7 @@ This project is the frontend for a Movie Reservation System. It is built using R
    ```
 
 3. Create a `.env` file in the root directory and add your environment variables:
+
    ```sh
    VITE_API_URL=http://your-api-url
    ```

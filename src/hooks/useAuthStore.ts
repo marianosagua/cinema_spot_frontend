@@ -1,10 +1,11 @@
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { apiUrl } from "@/api/variables";
 import axios, { AxiosError } from "axios";
-import { login, logout } from "@/store/slices";
+import { login, logout, updateUserData } from "@/store/slices";
 import { useNavigate } from "react-router-dom";
 import { FormRegisterInput } from "@/app/auth/pages";
 import { useToast } from "./use-toast";
+import { User } from "@/interfaces";
 
 export const useAuthStore = () => {
   const { userData, isLogged, token } = useAppSelector((state) => state.auth);
@@ -85,10 +86,16 @@ export const useAuthStore = () => {
     }
   };
 
+  const setUpdateUserData = async (dataUser: User): Promise<void> => {
+    localStorage.setItem("userData", JSON.stringify(dataUser));
+    dispatch(updateUserData(dataUser));
+  };
+
   return {
     setLoginUser,
     setLogoutUser,
     setRegisterUser,
+    setUpdateUserData,
 
     userData,
     isLogged,

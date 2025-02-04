@@ -22,6 +22,7 @@ import {
   updateSeat,
   assignRole,
   getReservations,
+  getUserById,
 } from "@/api/services";
 import { useToast } from "@/hooks/use-toast";
 
@@ -49,14 +50,40 @@ const itemVariants = {
 };
 
 export const ProfilePage: React.FC = () => {
-  const { userData, setLogoutUser, token } = useAuthStore();
+  const { userData, setLogoutUser, token, setUpdateUserData } = useAuthStore();
   const [reservations, setReservations] = useState<ReservationUser[]>([]);
   const [allReservations, setAllReservations] = useState<ReservationUser[]>([]);
   const [newRoleData, setNewRoleData] = useState({ userId: "", newRole: "" });
   const { toast } = useToast();
+  const [emailValidated, setemailValidated] = useState(
+    userData.email_validated
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const fetchUserData = async () => {
+      if (!emailValidated) {
+        try {
+          const { email_validated } = await getUserById(userData.id);
+
+          if (email_validated) {
+            setemailValidated(true);
+            setUpdateUserData({ ...userData, email_validated: true });
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          toast({
+            title: "Error",
+            description: "Failed to load your user data. Please try again.",
+            variant: "destructive",
+          });
+        }
+      }
+    };
+
+    fetchUserData();
+    fetchReservations();
   }, []);
 
   const fetchReservations = async () => {
@@ -86,10 +113,6 @@ export const ProfilePage: React.FC = () => {
       });
     }
   };
-
-  useEffect(() => {
-    fetchReservations();
-  }, []);
 
   const handleDeleteReservation = async (reservation: ReservationUser) => {
     try {
@@ -203,6 +226,21 @@ export const ProfilePage: React.FC = () => {
                 </span>
               </div>
             </div>
+
+            {emailValidated ? (
+              <Badge variant={"secondary"} className="cursor-default">
+                Email Validado
+              </Badge>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Badge
+                  variant={"destructive"}
+                  className="cursor-default text-center"
+                >
+                  Email No Validado
+                </Badge>
+              </div>
+            )}
 
             {userData.role === "ADMIN" && (
               <div className="space-y-4 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row">
@@ -323,7 +361,8 @@ export const ProfilePage: React.FC = () => {
                       </div>
                       <Button
                         type="submit"
-                        className="w-full bg-green-600 hover:bg-green-700"
+                        variant={"secondary"}
+                        className="w-full"
                       >
                         Assign Role
                       </Button>
@@ -346,7 +385,6 @@ export const ProfilePage: React.FC = () => {
           </CardContent>
         </Card>
       </motion.div>
-
       <motion.div variants={itemVariants}>
         <Card className="bg-zinc-950 border-zinc-800 text-white">
           <CardHeader>

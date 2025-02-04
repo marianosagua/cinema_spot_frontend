@@ -89,7 +89,6 @@ export const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     fetchReservations();
-    fetchAllReservations();
   }, []);
 
   const handleDeleteReservation = async (reservation: ReservationUser) => {

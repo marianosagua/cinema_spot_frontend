@@ -1,4 +1,3 @@
-import type React from "react";
 import { useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { useAuthStore } from "@/hooks/useAuthStore";
@@ -72,8 +71,8 @@ export const AppLayout: React.FC<LayoutProps> = ({ children }) => {
   );
 
   return (
-    <div className="bg-black text-white min-h-screen flex flex-col">
-      <header className="bg-black border-b border-gray-800">
+    <div className="bg-zinc-950 text-white min-h-screen flex flex-col">
+      <header className="border-b border-gray-800">
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link
             to="/"
@@ -108,12 +107,61 @@ export const AppLayout: React.FC<LayoutProps> = ({ children }) => {
       </header>
       <main className="flex-grow container mx-auto px-4 py-8">{children}</main>
       <Toaster />
-      <footer className="bg-black border-t border-gray-800 py-6 text-center">
-        <div className="container mx-auto px-4">
-          <p className="text-gray-400">
-            &copy; 2025 Movie Reservation System. Software development practice
-            application, not an actual movie booking application.
-          </p>
+      <footer className="bg-zinc-950 text-white border-t border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="flex flex-col md:flex-row md:justify-between gap-8">
+            <div className="flex-1">
+              <h3 className="text-2xl font-bold">Movie Reservation</h3>
+              <p className="text-gray-400 mt-2">
+              Application to practice development, it is not real.
+              </p>
+            </div>
+            <div className="flex-1">
+              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-2">
+              <li>
+                <Link
+                to="/"
+                className="hover:text-blue-400 transition-colors"
+                >
+                Home
+                </Link>
+              </li>
+              {isLogged ? (
+                <li>
+                <Link
+                  to="/profile"
+                  className="hover:text-blue-400 transition-colors"
+                >
+                  Profile
+                </Link>
+                </li>
+              ) : (
+                <>
+                <li>
+                  <Link
+                  to="/auth/login"
+                  className="hover:text-blue-400 transition-colors"
+                  >
+                  Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                  to="/auth/register"
+                  className="hover:text-blue-400 transition-colors"
+                  >
+                  Register
+                  </Link>
+                </li>
+                </>
+              )}
+              </ul>
+            </div>
+            </div>
+          <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+            <p>&copy; {new Date().getFullYear()} Movie Reservation. </p>
+          </div>
         </div>
       </footer>
     </div>

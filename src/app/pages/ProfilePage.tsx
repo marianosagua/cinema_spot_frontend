@@ -1,17 +1,29 @@
-import type React from "react"
-import { useEffect, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Mail, Calendar, LogOut, Ticket, Trash2 } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useAuthStore } from "@/hooks/useAuthStore"
-import type { ReservationUser } from "@/interfaces/reservation"
-import { deleteReservationDB, getReservationsByUser, updateSeat, assignRole, getReservations } from "@/api/services"
-import { useToast } from "@/hooks/use-toast"
+import type React from "react";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, Calendar, LogOut, Ticket, Trash2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useAuthStore } from "@/hooks/useAuthStore";
+import type { ReservationUser } from "@/interfaces/reservation";
+import {
+  deleteReservationDB,
+  getReservationsByUser,
+  updateSeat,
+  assignRole,
+  getReservations,
+} from "@/api/services";
+import { useToast } from "@/hooks/use-toast";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -21,7 +33,7 @@ const containerVariants = {
       staggerChildren: 0.1,
     },
   },
-}
+};
 
 const itemVariants = {
   hidden: { y: 20, opacity: 0 },
@@ -34,82 +46,86 @@ const itemVariants = {
       damping: 24,
     },
   },
-}
+};
 
 export const ProfilePage: React.FC = () => {
-  const { userData, setLogoutUser, token } = useAuthStore()
-  const [reservations, setReservations] = useState<ReservationUser[]>([])
-  const [allReservations, setAllReservations] = useState<ReservationUser[]>([])
-  const [newRoleData, setNewRoleData] = useState({ userId: "", newRole: "" })
-  const { toast } = useToast()
+  const { userData, setLogoutUser, token } = useAuthStore();
+  const [reservations, setReservations] = useState<ReservationUser[]>([]);
+  const [allReservations, setAllReservations] = useState<ReservationUser[]>([]);
+  const [newRoleData, setNewRoleData] = useState({ userId: "", newRole: "" });
+  const { toast } = useToast();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
 
   const fetchReservations = async () => {
     try {
-      const userReservations = await getReservationsByUser(userData.id)
-      setReservations(userReservations)
+      const userReservations = await getReservationsByUser(userData.id);
+      setReservations(userReservations);
     } catch (error) {
-      console.error("Error fetching user reservations:", error)
+      console.error("Error fetching user reservations:", error);
       toast({
         title: "Error",
         description: "Failed to load your reservations. Please try again.",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const fetchAllReservations = async () => {
     try {
-      const allReservations = await getReservations(token)
-      setAllReservations(allReservations)
+      const allReservations = await getReservations(token);
+      setAllReservations(allReservations);
     } catch (error) {
-      console.error("Error fetching all reservations:", error)
+      console.error("Error fetching all reservations:", error);
       toast({
         title: "Error",
         description: "Failed to load all reservations. Please try again.",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   useEffect(() => {
-    fetchReservations()
-    fetchAllReservations()
-  }, [userData.id, token])
+    fetchReservations();
+    fetchAllReservations();
+  }, []);
 
   const handleDeleteReservation = async (reservation: ReservationUser) => {
     try {
-      await deleteReservationDB(reservation.id_reservation)
+      await deleteReservationDB(reservation.id_reservation);
       await updateSeat(reservation.seat_data.id, {
         ...reservation.seat_data,
         room: reservation.showtime_data.room.id,
         is_available: true,
-      })
-      fetchReservations()
-      fetchAllReservations()
+      });
+      fetchReservations();
+      fetchAllReservations();
       toast({
         title: "Reservation Deleted",
         description: "Your reservation has been successfully deleted.",
-      })
+      });
     } catch (error) {
-      console.error("Error deleting reservation:", error)
+      console.error("Error deleting reservation:", error);
       toast({
         title: "Error",
         description: "Failed to delete reservation. Please try again.",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const handleAssignRole = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!newRoleData.userId || !newRoleData.newRole) {
       toast({
         title: "Invalid Input",
         description: "Please provide a valid user ID and role.",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     if (newRoleData.newRole !== "ADMIN" && newRoleData.newRole !== "USER") {
@@ -117,26 +133,26 @@ export const ProfilePage: React.FC = () => {
         title: "Invalid Role",
         description: "Role must be either 'ADMIN' or 'USER'.",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     try {
-      await assignRole(newRoleData.userId, newRoleData.newRole, token)
-      setNewRoleData({ userId: "", newRole: "" })
+      await assignRole(newRoleData.userId, newRoleData.newRole, token);
+      setNewRoleData({ userId: "", newRole: "" });
       toast({
         title: "Role Assigned",
         description: `Role ${newRoleData.newRole} has been successfully assigned to user ID ${newRoleData.userId}.`,
-      })
+      });
     } catch (error) {
-      console.error("Error assigning role:", error)
+      console.error("Error assigning role:", error);
       toast({
         title: "Error",
         description: "Failed to assign role. Please try again.",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   return (
     <motion.div
@@ -154,7 +170,9 @@ export const ProfilePage: React.FC = () => {
       <motion.div variants={itemVariants}>
         <Card className="bg-zinc-900 border-zinc-950 text-white">
           <CardHeader>
-            <CardTitle className="text-2xl font-semibold">Personal Information</CardTitle>
+            <CardTitle className="text-2xl font-semibold">
+              Personal Information
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="flex items-center space-x-4">
@@ -181,7 +199,8 @@ export const ProfilePage: React.FC = () => {
               <div className="flex items-center space-x-2">
                 <Calendar className="w-5 h-5 text-zinc-400" />
                 <span className="font-semibold">
-                  Member since: {new Date(userData?.created_at).toLocaleDateString()}
+                  Member since:{" "}
+                  {new Date(userData?.created_at).toLocaleDateString()}
                 </span>
               </div>
             </div>
@@ -212,20 +231,42 @@ export const ProfilePage: React.FC = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -20 }}
-                                transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                                transition={{
+                                  type: "spring",
+                                  stiffness: 300,
+                                  damping: 24,
+                                }}
                               >
                                 <div>
-                                  <h3 className="text-lg font-semibold">{reservation.showtime_data.movie.title}</h3>
-                                  <p>Date: {new Date(reservation.showtime_data.start_time).toLocaleDateString()}</p>
-                                  <p>Time: {new Date(reservation.showtime_data.start_time).toLocaleTimeString()}</p>
-                                  <p>Room: {reservation.showtime_data.room.name}</p>
-                                  <p>Seat: {reservation.seat_data.seat_number}</p>
+                                  <h3 className="text-lg font-semibold">
+                                    {reservation.showtime_data.movie.title}
+                                  </h3>
+                                  <p>
+                                    Date:{" "}
+                                    {new Date(
+                                      reservation.showtime_data.start_time
+                                    ).toLocaleDateString()}
+                                  </p>
+                                  <p>
+                                    Time:{" "}
+                                    {new Date(
+                                      reservation.showtime_data.start_time
+                                    ).toLocaleTimeString()}
+                                  </p>
+                                  <p>
+                                    Room: {reservation.showtime_data.room.name}
+                                  </p>
+                                  <p>
+                                    Seat: {reservation.seat_data.seat_number}
+                                  </p>
                                   <p>User: {reservation.user_data.email}</p>
                                 </div>
                                 <div className="flex items-center space-x-4">
                                   <Ticket className="w-6 h-6 text-blue-400" />
                                   <Button
-                                    onClick={() => handleDeleteReservation(reservation)}
+                                    onClick={() =>
+                                      handleDeleteReservation(reservation)
+                                    }
                                     variant="destructive"
                                     size="icon"
                                     className="h-8 w-8"
@@ -283,7 +324,10 @@ export const ProfilePage: React.FC = () => {
                           className="bg-zinc-800 text-white border-zinc-700"
                         />
                       </div>
-                      <Button type="submit" className="w-full bg-green-600 hover:bg-green-700">
+                      <Button
+                        type="submit"
+                        className="w-full bg-green-600 hover:bg-green-700"
+                      >
                         Assign Role
                       </Button>
                     </form>
@@ -308,7 +352,9 @@ export const ProfilePage: React.FC = () => {
       <motion.div variants={itemVariants}>
         <Card className="bg-zinc-900 border-zinc-950 text-white">
           <CardHeader>
-            <CardTitle className="text-2xl font-semibold">Your Reservations</CardTitle>
+            <CardTitle className="text-2xl font-semibold">
+              Your Reservations
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <AnimatePresence>
@@ -321,17 +367,32 @@ export const ProfilePage: React.FC = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 24,
+                      }}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-grow">
-                          <h3 className="text-lg font-semibold">{reservation.showtime_data.movie.title}</h3>
+                          <h3 className="text-lg font-semibold">
+                            {reservation.showtime_data.movie.title}
+                          </h3>
                           <p className="text-zinc-400">
-                            {new Date(reservation.showtime_data.start_time).toLocaleDateString()} at{" "}
-                            {new Date(reservation.showtime_data.start_time).toLocaleTimeString()}
+                            {new Date(
+                              reservation.showtime_data.start_time
+                            ).toLocaleDateString()}{" "}
+                            at{" "}
+                            {new Date(
+                              reservation.showtime_data.start_time
+                            ).toLocaleTimeString()}
                           </p>
-                          <p className="text-zinc-400">Room: {reservation.showtime_data.room.name}</p>
-                          <p className="text-zinc-400">Seat: {reservation.seat_data.seat_number}</p>
+                          <p className="text-zinc-400">
+                            Room: {reservation.showtime_data.room.name}
+                          </p>
+                          <p className="text-zinc-400">
+                            Seat: {reservation.seat_data.seat_number}
+                          </p>
                         </div>
                         <div className="flex items-center space-x-4">
                           <Ticket className="w-6 h-6 text-blue-400" />
@@ -356,6 +417,5 @@ export const ProfilePage: React.FC = () => {
         </Card>
       </motion.div>
     </motion.div>
-  )
-}       
-
+  );
+};

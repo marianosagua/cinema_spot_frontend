@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { useAuthStore } from "@/hooks/useAuthStore";
@@ -29,6 +29,10 @@ export const LoginPage = () => {
   } = useForm<IformInput>();
   const { setLoginUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
 
   const onSubmit = async (data: IformInput) => {
     setIsLoading(true);

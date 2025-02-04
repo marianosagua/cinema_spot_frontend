@@ -125,7 +125,7 @@ export const SeatSelectionPage: React.FC = () => {
       >
         Select Your Seats
       </motion.h1>
-      <Card className="bg-zinc-900 border-zinc-950">
+      <Card className="bg-zinc-950 border-zinc-800">
         <CardContent className="p-8">
           <motion.div
             className="w-full h-4 bg-gradient-to-r from-zinc-800 via-white to-zinc-800 rounded-full mb-12"
@@ -161,7 +161,7 @@ export const SeatSelectionPage: React.FC = () => {
           </motion.div>
         </CardContent>
       </Card>
-      <Card className="bg-zinc-900 border-zinc-950 text-white">
+      <Card className="bg-zinc-950 border-zinc-800 text-white">
         <CardContent className="p-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <div>
             <p className="text-xl font-semibold mb-2">
@@ -172,7 +172,8 @@ export const SeatSelectionPage: React.FC = () => {
             </p>
           </div>
           <Button
-            className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-md shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+            variant={"secondary"}
+            className="w-full sm:w-auto py-2 px-6 rounded-md shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
             disabled={selectedSeats.length === 0}
             onClick={handleProceed}
           >

@@ -57,7 +57,7 @@ export const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  });
+  }, []);
 
   const fetchReservations = async () => {
     try {
@@ -167,7 +167,7 @@ export const ProfilePage: React.FC = () => {
         User Profile
       </motion.h1>
       <motion.div variants={itemVariants}>
-        <Card className="bg-zinc-900 border-zinc-950 text-white">
+        <Card className="bg-zinc-950 border-zinc-800 text-white">
           <CardHeader>
             <CardTitle className="text-2xl font-semibold">
               Personal Information
@@ -210,12 +210,12 @@ export const ProfilePage: React.FC = () => {
                   <DialogTrigger asChild>
                     <Button
                       onClick={fetchAllReservations}
-                      className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                      variant={"secondary"}
                     >
                       View All Reservations
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="bg-zinc-900 text-white border-zinc-800 max-w-3xl">
+                  <DialogContent className="bg-zinc-950 border-zinc-900 text-white  max-w-3xl">
                     <DialogHeader>
                       <DialogTitle>All Reservations</DialogTitle>
                     </DialogHeader>
@@ -226,7 +226,7 @@ export const ProfilePage: React.FC = () => {
                             {allReservations.map((reservation) => (
                               <motion.li
                                 key={reservation.id_reservation}
-                                className="bg-zinc-800 rounded-lg p-4 flex items-center justify-between"
+                                className="bg-zinc-900 rounded-lg p-4 flex items-center justify-between"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -20 }}
@@ -286,11 +286,9 @@ export const ProfilePage: React.FC = () => {
 
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
-                      Assign Role
-                    </Button>
+                    <Button variant={"default"}>Assign Role</Button>
                   </DialogTrigger>
-                  <DialogContent className="bg-zinc-900 text-white border-zinc-800">
+                  <DialogContent className="bg-zinc-950 border-zinc-900 text-white">
                     <DialogHeader>
                       <DialogTitle>Assign Role</DialogTitle>
                     </DialogHeader>
@@ -338,7 +336,8 @@ export const ProfilePage: React.FC = () => {
             <div className="pt-4">
               <Button
                 onClick={setLogoutUser}
-                className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                variant={"outline"}
+                className="w-full sm:w-auto py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 bg-zinc-950 border-zinc-800 hover:bg-zinc-800 hover:text-white"
               >
                 <LogOut className="w-5 h-5 mr-2" />
                 Log Out
@@ -349,7 +348,7 @@ export const ProfilePage: React.FC = () => {
       </motion.div>
 
       <motion.div variants={itemVariants}>
-        <Card className="bg-zinc-900 border-zinc-950 text-white">
+        <Card className="bg-zinc-950 border-zinc-800 text-white">
           <CardHeader>
             <CardTitle className="text-2xl font-semibold">
               Your Reservations
@@ -362,7 +361,7 @@ export const ProfilePage: React.FC = () => {
                   {reservations.map((reservation) => (
                     <motion.li
                       key={reservation.id_reservation}
-                      className="bg-zinc-800 rounded-lg p-4"
+                      className="bg-zinc-900  rounded-lg p-4"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}

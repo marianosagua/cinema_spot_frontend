@@ -64,7 +64,7 @@ export const MovieDetailsPage = () => {
       animate="visible"
     >
       <motion.div className="lg:w-1/3" variants={itemVariants}>
-        <Card className="overflow-hidden bg-gray-900 border-2 border-zinc-700">
+        <Card className="overflow-hidden bg-gray-900 border-2 border-zinc-900">
           <CardContent className="p-0">
             <div className="relative aspect-[2/3]">
               <img

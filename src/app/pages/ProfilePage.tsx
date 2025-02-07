@@ -25,6 +25,7 @@ import {
   getUserById,
 } from "@/api/services";
 import { useToast } from "@/hooks/use-toast";
+import { Icons } from "@/components/ui/icons";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -58,6 +59,10 @@ export const ProfilePage: React.FC = () => {
   const [emailValidated, setemailValidated] = useState(
     userData.email_validated
   );
+  const [isLoadingYourReservations, setisLoadingYourReservations] =
+    useState(false);
+  const [isLoadingAllReservations, setisLoadingAllReservations] =
+    useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -88,8 +93,10 @@ export const ProfilePage: React.FC = () => {
 
   const fetchReservations = async () => {
     try {
+      setisLoadingYourReservations(true);
       const userReservations = await getReservationsByUser(userData.id);
       setReservations(userReservations);
+      setisLoadingYourReservations(false);
     } catch (error) {
       console.error("Error fetching user reservations:", error);
       toast({
@@ -102,8 +109,10 @@ export const ProfilePage: React.FC = () => {
 
   const fetchAllReservations = async () => {
     try {
+      setisLoadingAllReservations(true);
       const allReservations = await getReservations(token);
       setAllReservations(allReservations);
+      setisLoadingAllReservations(false);
     } catch (error) {
       console.error("Error fetching all reservations:", error);
       toast({
@@ -258,66 +267,73 @@ export const ProfilePage: React.FC = () => {
                       <DialogTitle>All Reservations</DialogTitle>
                     </DialogHeader>
                     <div className="max-h-[60vh] overflow-y-auto">
-                      <AnimatePresence>
-                        {allReservations.length > 0 ? (
-                          <motion.ul className="space-y-4">
-                            {allReservations.map((reservation) => (
-                              <motion.li
-                                key={reservation.id_reservation}
-                                className="bg-zinc-900 rounded-lg p-4 flex items-center justify-between"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -20 }}
-                                transition={{
-                                  type: "spring",
-                                  stiffness: 300,
-                                  damping: 24,
-                                }}
-                              >
-                                <div>
-                                  <h3 className="text-lg font-semibold">
-                                    {reservation.showtime_data.movie.title}
-                                  </h3>
-                                  <p>
-                                    Date:{" "}
-                                    {new Date(
-                                      reservation.showtime_data.start_time
-                                    ).toLocaleDateString()}
-                                  </p>
-                                  <p>
-                                    Time:{" "}
-                                    {new Date(
-                                      reservation.showtime_data.start_time
-                                    ).toLocaleTimeString()}
-                                  </p>
-                                  <p>
-                                    Room: {reservation.showtime_data.room.name}
-                                  </p>
-                                  <p>
-                                    Seat: {reservation.seat_data.seat_number}
-                                  </p>
-                                  <p>User: {reservation.user_data.email}</p>
-                                </div>
-                                <div className="flex items-center space-x-4">
-                                  <Ticket className="w-6 h-6 text-blue-400" />
-                                  <Button
-                                    onClick={() =>
-                                      handleDeleteReservation(reservation)
-                                    }
-                                    variant="destructive"
-                                    size="icon"
-                                    className="h-8 w-8"
-                                  >
-                                    <Trash2 className="h-4 w-4" />
-                                  </Button>
-                                </div>
-                              </motion.li>
-                            ))}
-                          </motion.ul>
-                        ) : (
-                          <p>No reservations found.</p>
-                        )}
-                      </AnimatePresence>
+                      {isLoadingAllReservations ? (
+                        <div className="flex items-center justify-center h-full">
+                          <Icons.spinner className="mr-2 h-10 w-10 animate-spin" />
+                        </div>
+                      ) : (
+                        <AnimatePresence>
+                          {allReservations.length > 0 ? (
+                            <motion.ul className="space-y-4">
+                              {allReservations.map((reservation) => (
+                                <motion.li
+                                  key={reservation.id_reservation}
+                                  className="bg-zinc-900 rounded-lg p-4 flex items-center justify-between"
+                                  initial={{ opacity: 0, y: 20 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: -20 }}
+                                  transition={{
+                                    type: "spring",
+                                    stiffness: 300,
+                                    damping: 24,
+                                  }}
+                                >
+                                  <div>
+                                    <h3 className="text-lg font-semibold">
+                                      {reservation.showtime_data.movie.title}
+                                    </h3>
+                                    <p>
+                                      Date:{" "}
+                                      {new Date(
+                                        reservation.showtime_data.start_time
+                                      ).toLocaleDateString()}
+                                    </p>
+                                    <p>
+                                      Time:{" "}
+                                      {new Date(
+                                        reservation.showtime_data.start_time
+                                      ).toLocaleTimeString()}
+                                    </p>
+                                    <p>
+                                      Room:{" "}
+                                      {reservation.showtime_data.room.name}
+                                    </p>
+                                    <p>
+                                      Seat: {reservation.seat_data.seat_number}
+                                    </p>
+                                    <p>User: {reservation.user_data.email}</p>
+                                  </div>
+                                  <div className="flex items-center space-x-4">
+                                    <Ticket className="w-6 h-6 text-blue-400" />
+                                    <Button
+                                      onClick={() =>
+                                        handleDeleteReservation(reservation)
+                                      }
+                                      variant="destructive"
+                                      size="icon"
+                                      className="h-8 w-8"
+                                    >
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                </motion.li>
+                              ))}
+                            </motion.ul>
+                          ) : (
+                            <p>No reservations found.</p>
+                          )}
+                        </AnimatePresence>
+                      )}
                     </div>
                   </DialogContent>
                 </Dialog>
@@ -393,62 +409,70 @@ export const ProfilePage: React.FC = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <AnimatePresence>
-              {reservations.length > 0 ? (
-                <motion.ul className="space-y-4">
-                  {reservations.map((reservation) => (
-                    <motion.li
-                      key={reservation.id_reservation}
-                      className="bg-zinc-900  rounded-lg p-4"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 24,
-                      }}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex-grow">
-                          <h3 className="text-lg font-semibold">
-                            {reservation.showtime_data.movie.title}
-                          </h3>
-                          <p className="text-zinc-400">
-                            {new Date(
-                              reservation.showtime_data.start_time
-                            ).toLocaleDateString()}{" "}
-                            at{" "}
-                            {new Date(
-                              reservation.showtime_data.start_time
-                            ).toLocaleTimeString()}
-                          </p>
-                          <p className="text-zinc-400">
-                            Room: {reservation.showtime_data.room.name}
-                          </p>
-                          <p className="text-zinc-400">
-                            Seat: {reservation.seat_data.seat_number}
-                          </p>
+            {isLoadingYourReservations ? (
+              <div className="flex items-center justify-center h-full">
+                <Icons.spinner className="mr-2 h-10 w-10 animate-spin" />
+              </div>
+            ) : (
+              <AnimatePresence>
+                {reservations.length > 0 ? (
+                  <motion.ul className="space-y-4">
+                    {reservations.map((reservation) => (
+                      <motion.li
+                        key={reservation.id_reservation}
+                        className="bg-zinc-900  rounded-lg p-4"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 24,
+                        }}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex-grow">
+                            <h3 className="text-lg font-semibold">
+                              {reservation.showtime_data.movie.title}
+                            </h3>
+                            <p className="text-zinc-400">
+                              {new Date(
+                                reservation.showtime_data.start_time
+                              ).toLocaleDateString()}{" "}
+                              at{" "}
+                              {new Date(
+                                reservation.showtime_data.start_time
+                              ).toLocaleTimeString()}
+                            </p>
+                            <p className="text-zinc-400">
+                              Room: {reservation.showtime_data.room.name}
+                            </p>
+                            <p className="text-zinc-400">
+                              Seat: {reservation.seat_data.seat_number}
+                            </p>
+                          </div>
+                          <div className="flex items-center space-x-4">
+                            <Ticket className="w-6 h-6 text-blue-400" />
+                            <Button
+                              onClick={() =>
+                                handleDeleteReservation(reservation)
+                              }
+                              variant="destructive"
+                              size="icon"
+                              className="h-8 w-8"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
                         </div>
-                        <div className="flex items-center space-x-4">
-                          <Ticket className="w-6 h-6 text-blue-400" />
-                          <Button
-                            onClick={() => handleDeleteReservation(reservation)}
-                            variant="destructive"
-                            size="icon"
-                            className="h-8 w-8"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    </motion.li>
-                  ))}
-                </motion.ul>
-              ) : (
-                <p className="text-zinc-400">You have no reservations yet.</p>
-              )}
-            </AnimatePresence>
+                      </motion.li>
+                    ))}
+                  </motion.ul>
+                ) : (
+                  <p className="text-zinc-400">You have no reservations yet.</p>
+                )}
+              </AnimatePresence>
+            )}
           </CardContent>
         </Card>
       </motion.div>

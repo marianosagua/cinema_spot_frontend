@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { Movie } from "../../interfaces/movie";
 import { getMovies } from "@/api/services/movieService";
+import { Icons } from "@/components/ui/icons";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -26,11 +27,14 @@ const itemVariants = {
 
 export const HomePage = () => {
   const [movies, setmovies] = useState<Movie[]>([]);
+  const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
     const fetchMovies = async () => {
+      setisLoading(true);
       const movies = await getMovies();
       setmovies(movies);
+      setisLoading(false);
     };
     fetchMovies();
   }, []);
@@ -40,39 +44,45 @@ export const HomePage = () => {
       <h1 className="text-4xl sm:text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500">
         Now Showing
       </h1>
-      <motion.div
-        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {movies.map((movie) => (
-          <motion.div key={movie.id} variants={itemVariants}>
-            <Link to={`/movies/${movie.id}`}>
-              <Card className="overflow-hidden bg-gray-900 hover:bg-gray-800 transition-colors duration-300 border-zinc-900">
-                <CardContent className="p-0">
-                  <div className="relative aspect-[3/4]">
-                    <img
-                      src={movie.poster || "/placeholder.svg"}
-                      alt={movie.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3">
-                      <h2 className="text-lg sm:text-xl font-semibold mb-1 text-white line-clamp-1">
-                        {movie.title}
-                      </h2>
-                      <Badge variant="default" className="text-xs">
-                        {movie.category}
-                      </Badge>
+      {isLoading ? (
+        <div className="flex items-center justify-center h-96">
+          <Icons.spinner className="mr-2 h-10 w-10 animate-spin" />
+        </div>
+      ) : (
+        <motion.div
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {movies.map((movie) => (
+            <motion.div key={movie.id} variants={itemVariants}>
+              <Link to={`/movies/${movie.id}`}>
+                <Card className="overflow-hidden bg-gray-900 hover:bg-gray-800 transition-colors duration-300 border-zinc-900">
+                  <CardContent className="p-0">
+                    <div className="relative aspect-[3/4]">
+                      <img
+                        src={movie.poster || "/placeholder.svg"}
+                        alt={movie.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3">
+                        <h2 className="text-lg sm:text-xl font-semibold mb-1 text-white line-clamp-1">
+                          {movie.title}
+                        </h2>
+                        <Badge variant="default" className="text-xs">
+                          {movie.category}
+                        </Badge>
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          </motion.div>
-        ))}
-      </motion.div>
+                  </CardContent>
+                </Card>
+              </Link>
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
     </div>
   );
 };

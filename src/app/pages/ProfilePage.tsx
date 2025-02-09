@@ -131,8 +131,13 @@ export const ProfilePage: React.FC = () => {
         room: reservation.showtime_data.room.id,
         is_available: true,
       });
+      
       fetchReservations();
-      fetchAllReservations();
+
+      if (userData.role === "ADMIN") {
+        fetchAllReservations();
+      }
+
       toast({
         title: "Reservation Deleted",
         description: "Your reservation has been successfully deleted.",

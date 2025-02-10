@@ -113,12 +113,11 @@ export const ReservationPage: React.FC = () => {
             </p>
             <p className="font-bold">
               <span className="text-gray-400">Date:</span>{" "}
-              {new Date(showtime?.start_time || "").toLocaleDateString()}
+              {showtime?.start_time}
             </p>
             <p className="font-bold">
               <span className="text-gray-400">Time:</span>{" "}
-              {new Date(showtime?.start_time || "").toLocaleTimeString()} -{" "}
-              {new Date(showtime?.end_time || "").toLocaleTimeString()}
+              {showtime?.start_time} - {showtime?.end_time}
             </p>
             <p className="font-bold">
               <span className="text-gray-400">Seats:</span>{" "}

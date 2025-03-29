@@ -76,9 +76,14 @@ export const AppLayout: React.FC<LayoutProps> = ({ children }) => {
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link
             to="/"
-            className="text-xl sm:text-3xl font-bold text-white hover:text-gray-300 transition-colors duration-200"
+            className="flex items-center space-x-2 text-xl sm:text-3xl font-bold text-white hover:text-gray-300 transition-colors duration-200"
           >
-            Movie Reservation System
+            <img
+              src="/LogoCinemaSpot.png"
+              alt="CinemaSpot Logo"
+              className="h-8 w-auto"
+            />
+            <span>CinemaSpot</span>
           </Link>
           <ul className="hidden md:flex space-x-6">
             <NavItems />
@@ -86,20 +91,20 @@ export const AppLayout: React.FC<LayoutProps> = ({ children }) => {
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden"
-                aria-label="Menu"
+          variant="ghost"
+          size="icon"
+          className="md:hidden"
+          aria-label="Menu"
               >
-                <Menu className="h-6 w-6" />
+          <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="bg-zinc-950 text-white">
               <SheetHeader>
-                <SheetTitle className="text-white">Menu</SheetTitle>
+          <SheetTitle className="text-white">Menu</SheetTitle>
               </SheetHeader>
               <ul className="mt-6 space-y-4">
-                <NavItems />
+          <NavItems />
               </ul>
             </SheetContent>
           </Sheet>

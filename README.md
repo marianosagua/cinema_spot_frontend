@@ -1,4 +1,4 @@
-# Movie Reservation System Frontend
+# CinemaSpot Frontend
 
 This project is the frontend for a Movie Reservation System. It is built using React, TypeScript, Redux, and Tailwind CSS. The application allows users to browse movies, view details, select seats, and make reservations.
 
@@ -8,7 +8,6 @@ This project is the frontend for a Movie Reservation System. It is built using R
 - [Technologies Used](#technologies-used)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
-- [Screenshots](#screenshots)
 - [Available Scripts](#available-scripts)
 
 ## Features
@@ -42,8 +41,8 @@ This project is the frontend for a Movie Reservation System. It is built using R
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/your-username/movie-reservation-system-frontend.git
-   cd movie-reservation-system-frontend
+   git clone https://github.com/your-username/cinemaspot_frontend.git
+   cd cinemaspot_frontend
    ```
 
 2. Install dependencies:
@@ -70,7 +69,7 @@ npm run dev
 yarn dev
 ```
 
-The application will be available at `http://localhost:3000`.
+The application will be available at `http://localhost:5173`.
 
 ## Project Structure
 

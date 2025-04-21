@@ -1,11 +1,4 @@
 export interface Reservation {
-  id?: string;
-  user_id?: string;
-  showtime_id?: string;
-  seat_ids?: string[];
-}
-
-export interface ReservationUser {
   id_reservation: string;
   user_data: UserData;
   showtime_data: ShowtimeData;

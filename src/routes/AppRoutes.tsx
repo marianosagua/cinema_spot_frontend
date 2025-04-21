@@ -5,6 +5,7 @@ import { useAuthStore } from "@/hooks/useAuthStore";
 import {
   HomePage,
   MovieDetailsPage,
+  MoviesPage,
   ProfilePage,
   ReservationPage,
   SeatSelectionPage,
@@ -17,6 +18,7 @@ export const AppRoutes = () => {
     <AppLayout>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/movies" element={<MoviesPage />} />
         <Route path="/movies/:id" element={<MovieDetailsPage />} />
         <Route
           path="/movies/:id/seats/:showtimeId"

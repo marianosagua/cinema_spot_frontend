@@ -6,7 +6,12 @@ export const getMovies = async () => {
   return response.data;
 };
 
-export const getMovie = async (id: number | undefined) => {
+export const getMovie = async (id: string | undefined) => {
   const response = await axios.get(`${apiUrl}/api/movies/${id}`);
   return response.data;
-}
+};
+
+export const getFutureMovies = async () => {
+  const response = await axios.get(`${apiUrl}/api/future-releases/`);
+  return response.data;
+};

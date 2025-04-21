@@ -1,6 +1,7 @@
 export interface Seat {
-  id: string;
-  seat_number: number;
-  room: string;
+  id:           string;
+  seat_number:  number;
+  room:         string;
   is_available: boolean;
 }
+

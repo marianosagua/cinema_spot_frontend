@@ -1,7 +1,7 @@
 import axios from "axios";
 import { apiUrl } from "../variables";
 
-export const getShowtimesByMovie = async (id: number | undefined) => {
+export const getShowtimesByMovie = async (id: string | undefined) => {
   const response = await axios.get(`${apiUrl}/api/showtimes/movie/${id}`);
   return response.data;
 };

@@ -1,96 +1,96 @@
 # CinemaSpot Frontend
 
-This project is the frontend for a Movie Reservation System. It is built using React, TypeScript, Redux, and Tailwind CSS. The application allows users to browse movies, view details, select seats, and make reservations.
+Este proyecto es el frontend para un Sistema de Reserva de Películas. Está construido utilizando React, TypeScript, Redux y Tailwind CSS. La aplicación permite a los usuarios navegar por películas, ver detalles, seleccionar asientos y realizar reservas.
 
-## Table of Contents
+## Tabla de Contenidos
 
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [Available Scripts](#available-scripts)
+- [Características](#características)
+- [Tecnologías Utilizadas](#tecnologías-utilizadas)
+- [Comenzando](#comenzando)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Scripts Disponibles](#scripts-disponibles)
 
-## Features
+## Características
 
-- User authentication (login and registration)
-- Browse and view movie details
-- Select showtimes and seats
-- Make reservations
-- User profile management
-- Responsive design
+- Autenticación de usuarios (inicio de sesión y registro)
+- Navegar y ver detalles de películas
+- Seleccionar horarios y asientos
+- Realizar reservas
+- Gestión del perfil de usuario
+- Diseño responsive
 
-## Technologies Used
+## Tecnologías Utilizadas
 
-- **React**: A JavaScript library for building user interfaces
-- **TypeScript**: A typed superset of JavaScript that compiles to plain JavaScript
-- **Redux**: A predictable state container for JavaScript apps
-- **Tailwind CSS**: A utility-first CSS framework for rapid UI development
-- **Framer Motion**: A library for animations in React
-- **Axios**: A promise-based HTTP client for the browser and Node.js
-- **Radix UI**: A set of low-level, accessible UI components for building design systems
+- **React**: Una biblioteca de JavaScript para construir interfaces de usuario
+- **TypeScript**: Un superconjunto tipado de JavaScript que compila a JavaScript simple
+- **Redux**: Un contenedor de estado predecible para aplicaciones JavaScript
+- **Tailwind CSS**: Un framework CSS utility-first para desarrollo rápido de UI
+- **Framer Motion**: Una biblioteca para animaciones en React
+- **Axios**: Un cliente HTTP basado en promesas para el navegador y Node.js
+- **Radix UI**: Un conjunto de componentes UI accesibles de bajo nivel para construir sistemas de diseño
 
-## Getting Started
+## Comenzando
 
-### Prerequisites
+### Prerrequisitos
 
-- Node.js (version 14 or higher)
-- npm or yarn
+- Node.js (versión 14 o superior)
+- npm o yarn
 
-### Installation
+### Instalación
 
-1. Clone the repository:
+1. Clonar el repositorio:
 
    ```sh
    git clone https://github.com/your-username/cinemaspot_frontend.git
    cd cinemaspot_frontend
    ```
 
-2. Install dependencies:
+2. Instalar dependencias:
 
    ```sh
    npm install
-   # or
+   # o
    yarn install
    ```
 
-3. Create a `.env` file in the root directory and add your environment variables:
+3. Crear un archivo `.env` en el directorio raíz y agregar tus variables de entorno:
 
    ```sh
    VITE_API_URL=http://your-api-url
    ```
 
-### Running the Application
+### Ejecutar la Aplicación
 
-To start the development server:
+Para iniciar el servidor de desarrollo:
 
 ```sh
 npm run dev
-# or
+# o
 yarn dev
 ```
 
-The application will be available at `http://localhost:5173`.
+La aplicación estará disponible en `http://localhost:5173`.
 
-## Project Structure
+## Estructura del Proyecto
 
 ```plaintext
 src/
-├── api/                # API service files
-├── app/                # Application pages and routes
-├── components/         # Reusable UI components
-├── hooks/              # Custom hooks
-├── interfaces/         # TypeScript interfaces
-├── lib/                # Utility functions
-├── store/              # Redux store and slices
-├── index.css           # Global CSS file
-├── main.tsx            # Application entry point
-├── vite-env.d.ts       # Vite environment types
-└── App.tsx             # Main App component
+├── api/                # Archivos de servicios API
+├── app/                # Páginas y rutas de la aplicación
+├── components/         # Componentes UI reutilizables
+├── hooks/              # Hooks personalizados
+├── interfaces/         # Interfaces TypeScript
+├── lib/                # Funciones de utilidad
+├── store/              # Store de Redux y slices
+├── index.css           # Archivo CSS global
+├── main.tsx            # Punto de entrada de la aplicación
+├── vite-env.d.ts       # Tipos de entorno Vite
+└── App.tsx             # Componente principal App
 ```
 
-## Available Scripts
+## Scripts Disponibles
 
-- `npm run dev`: Start the development server
-- `npm run build`: Build the application for production
-- `npm run lint`: Run ESLint to lint the code
-- `npm run preview`: Preview the production build
+- `npm run dev`: Iniciar el servidor de desarrollo
+- `npm run build`: Construir la aplicación para producción
+- `npm run lint`: Ejecutar ESLint para verificar el código
+- `npm run preview`: Previsualizar la versión de producción

@@ -58,21 +58,21 @@ export const RegisterPage = () => {
         <Card className="bg-black border-zinc-800">
           <CardHeader className="space-y-1 text-white">
             <CardTitle className="text-3xl font-bold tracking-tight">
-              Create an account
+              Crear una cuenta
             </CardTitle>
             <CardDescription>
-              Enter your details below to create your account
+              Introduce tus datos a continuación para crear tu cuenta
             </CardDescription>
           </CardHeader>
           <CardContent className="text-white">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="first_name">First Name</Label>
+                  <Label htmlFor="first_name">Nombre</Label>
                   <Input
                     id="first_name"
                     {...register("first_name", {
-                      required: "First name is required",
+                      required: "El nombre es obligatorio",
                     })}
                     className="bg-zinc-900 border-zinc-800"
                   />
@@ -83,11 +83,11 @@ export const RegisterPage = () => {
                   )}
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="last_name">Last Name</Label>
+                  <Label htmlFor="last_name">Apellido</Label>
                   <Input
                     id="last_name"
                     {...register("last_name", {
-                      required: "Last name is required",
+                      required: "El apellido es obligatorio",
                     })}
                     className="bg-zinc-900 border-zinc-800"
                   />
@@ -101,9 +101,9 @@ export const RegisterPage = () => {
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
-                    placeholder="example@example.com"
+                    placeholder="ejemplo@ejemplo.com"
                     type="email"
-                    {...register("email", { required: "Email is required" })}
+                    {...register("email", { required: "El email es obligatorio" })}
                     className="bg-zinc-900 border-zinc-800"
                   />
                   {errors.email && (
@@ -113,12 +113,12 @@ export const RegisterPage = () => {
                   )}
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">Contraseña</Label>
                   <Input
                     id="password"
                     type="password"
                     {...register("password", {
-                      required: "Password is required",
+                      required: "La contraseña es obligatoria",
                       minLength: 6,
                     })}
                     className="bg-zinc-900 border-zinc-800"
@@ -133,16 +133,16 @@ export const RegisterPage = () => {
                   {isLoading && (
                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  Sign Up
+                  Registrarse
                 </Button>
               </div>
             </form>
           </CardContent>
           <CardFooter>
             <p className="text-sm text-zinc-400 text-center w-full">
-              Already have an account?{" "}
+              ¿Ya tienes una cuenta?{" "}
               <Link to="/auth/login" className="text-zinc-200 hover:underline">
-                Login
+                Iniciar Sesión
               </Link>
             </p>
           </CardFooter>

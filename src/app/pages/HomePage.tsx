@@ -56,22 +56,22 @@ export const HomePage: React.FC = () => {
         <div className="absolute inset-0 z-0">
           <img
             src={HomePageLogo}
-            alt="Cinema theater"
+            alt="Sala de cine"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/30" />
         </div>
         <div className="container mx-auto px-4 z-10 text-center">
           <h1 className="text-4xl md:text-6xl font-bold font-oswald mb-4 tracking-wide">
-            Welcome to CinemaSpot
+            Bienvenido a CinemaSpot
           </h1>
           <p className="text-xl md:text-2xl text-[#E0E0E0] mb-8 font-montserrat max-w-2xl mx-auto">
-            Book your tickets for the best movies in town and enjoy an
-            unforgettable cinema experience
+            Reserva tus entradas para las mejores películas de la ciudad y
+            disfruta de una experiencia cinematográfica inolvidable
           </p>
           <Link to="/movies">
             <Button className="bg-[#E50914] hover:bg-[#FF3333] text-white text-lg px-8 py-6">
-              Explore Movies
+              Explorar Películas
             </Button>
           </Link>
         </div>
@@ -81,7 +81,7 @@ export const HomePage: React.FC = () => {
       <section className="py-16 bg-[#121212]">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold font-oswald text-center mb-12">
-            Now Showing
+            En Cartelera
           </h2>
 
           {/* Desktop View */}
@@ -117,7 +117,7 @@ export const HomePage: React.FC = () => {
                     onClick={() => handleBookingNow(movie.id)}
                     className="w-full bg-[#E50914] hover:bg-[#E50914]/90 text-white mt-auto"
                   >
-                    Book Now
+                    Reservar Ahora
                   </Button>
                 </div>
               </div>
@@ -160,7 +160,7 @@ export const HomePage: React.FC = () => {
                           onClick={() => handleBookingNow(movie.id)}
                           className="w-full bg-[#E50914] hover:bg-[#E50914]/90 text-white mt-auto"
                         >
-                          Book Now
+                          Reservar Ahora
                         </Button>
                       </div>
                     </div>
@@ -187,7 +187,7 @@ export const HomePage: React.FC = () => {
       <section className="py-16 bg-[#0A0A0A]">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold font-oswald text-center mb-12">
-            Upcoming Releases
+            Próximos Estrenos
           </h2>
 
           {/* Desktop View */}
@@ -209,14 +209,14 @@ export const HomePage: React.FC = () => {
                     {movie.title}
                   </h3>
                   <p className="text-sm text-[#D4AF37] font-openSans mb-4">
-                    Release: {movie.release_date}
+                    Estreno: {movie.release_date}
                   </p>
                   <Button
                     variant="outline"
                     className="w-full border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#121212] mt-auto bg-black"
                     onClick={() => handleBookingNow(movie.id)}
                   >
-                    View Details
+                    Ver Detalles
                   </Button>
                 </div>
               </div>
@@ -245,14 +245,14 @@ export const HomePage: React.FC = () => {
                           {movie.title}
                         </h3>
                         <p className="text-sm text-[#D4AF37] font-openSans mb-4">
-                          Release: {movie.release_date}
+                          Estreno: {movie.release_date}
                         </p>
                         <Button
                           variant="outline"
                           className="w-full border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#121212] mt-auto bg-black"
                           onClick={() => handleBookingNow(movie.id)}
                         >
-                          View Details
+                          Ver Detalles
                         </Button>
                       </div>
                     </div>

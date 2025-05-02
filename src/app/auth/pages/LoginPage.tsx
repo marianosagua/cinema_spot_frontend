@@ -56,10 +56,10 @@ export const LoginPage = () => {
         <Card className="bg-black border-zinc-800">
           <CardHeader className="space-y-1">
             <CardTitle className="text-3xl font-bold tracking-tight text-white">
-              Welcome back
+              Bienvenido de nuevo
             </CardTitle>
             <CardDescription>
-              Enter your credentials to access your account
+              Ingresa tus credenciales para acceder a tu cuenta
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -69,9 +69,9 @@ export const LoginPage = () => {
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
-                    placeholder="example@example.com"
+                    placeholder="ejemplo@ejemplo.com"
                     type="email"
-                    {...register("email", { required: "Email is required" })}
+                    {...register("email", { required: "El email es obligatorio" })}
                     className="bg-zinc-900 border-zinc-800"
                   />
                   {errors.email && (
@@ -81,12 +81,12 @@ export const LoginPage = () => {
                   )}
                 </div>
                 <div className="grid gap-2 text-white">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">Contraseña</Label>
                   <Input
                     id="password"
                     type="password"
                     {...register("password", {
-                      required: "Password is required",
+                      required: "La contraseña es obligatoria",
                     })}
                     className="bg-zinc-900 border-zinc-800"
                   />
@@ -100,19 +100,19 @@ export const LoginPage = () => {
                   {isLoading && (
                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  Sign In
+                  Iniciar Sesión
                 </Button>
               </div>
             </form>
           </CardContent>
           <CardFooter>
             <p className="text-sm text-zinc-400 text-center w-full">
-              Don't have an account?{" "}
+              ¿No tienes una cuenta?{" "}
               <Link
                 to="/auth/register"
                 className="text-zinc-200 hover:underline"
               >
-                Sign Up
+                Regístrate
               </Link>
             </p>
           </CardFooter>

@@ -62,8 +62,8 @@ export const ReservationPage: React.FC = () => {
       );
 
       toast({
-        title: "Reservation Completed",
-        description: "Your reservation has been completed successfully.",
+        title: "Reserva Completada",
+        description: "Tu reserva ha sido completada exitosamente.",
       });
 
       setTimeout(() => {
@@ -75,7 +75,7 @@ export const ReservationPage: React.FC = () => {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "An error occurred while completing the reservation.",
+        description: "Ha ocurrido un error al completar la reserva.",
       });
     } finally {
       setIsLoading(false);
@@ -98,29 +98,29 @@ export const ReservationPage: React.FC = () => {
         className="text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500"
         variants={itemVariants}
       >
-        Reservation Confirmation
+        Confirmación de Reserva
       </motion.h1>
       <motion.div variants={itemVariants}>
         <Card className="bg-zinc-950 border-zinc-800 text-white">
           <CardHeader>
             <CardTitle className="text-3xl font-semibold">
-              Reservation Details
+              Detalles de la Reserva
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="font-bold">
-              <span className="text-gray-400">Movie:</span> {movie?.title}
+              <span className="text-gray-400">Película:</span> {movie?.title}
             </p>
             <p className="font-bold">
-              <span className="text-gray-400">Date:</span>{" "}
+              <span className="text-gray-400">Fecha:</span>{" "}
               {showtime?.start_time}
             </p>
             <p className="font-bold">
-              <span className="text-gray-400">Time:</span>{" "}
+              <span className="text-gray-400">Hora:</span>{" "}
               {showtime?.start_time} - {showtime?.end_time}
             </p>
             <p className="font-bold">
-              <span className="text-gray-400">Seats:</span>{" "}
+              <span className="text-gray-400">Asientos:</span>{" "}
               {seats?.map((seat) => seat.seat_number).join(", ")}
             </p>
             <p className="text-xl font-bold">
@@ -137,7 +137,7 @@ export const ReservationPage: React.FC = () => {
               {isLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : null}
-              Complete Reservation
+              Completar Reserva
             </Button>
             <Button
               onClick={handleCancel}
@@ -145,7 +145,7 @@ export const ReservationPage: React.FC = () => {
               className="w-full sm:w-auto bg-zinc-950 border-zinc-800 hover:bg-zinc-800 hover:text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
               disabled={isLoading}
             >
-              Cancel
+              Cancelar
             </Button>
           </CardFooter>
         </Card>

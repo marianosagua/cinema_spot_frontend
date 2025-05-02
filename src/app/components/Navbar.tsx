@@ -62,7 +62,7 @@ const Navbar: React.FC = () => {
           <div className="relative h-10 w-10 rounded-full overflow-hidden">
             <img
               src={CinemaSpotLogo}
-              alt="CinemaSpot Logo"
+              alt="Logo CinemaSpot"
               className="w-full h-full object-contain"
             />
           </div>
@@ -81,11 +81,11 @@ const Navbar: React.FC = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center justify-center flex-1 mx-4">
           <div className="flex gap-8">
-            <NavLink to="/" isActive={isActive("/")} label="Home" />
+            <NavLink to="/" isActive={isActive("/")} label="Inicio" />
             <NavLink
               to="/movies"
               isActive={isActive("/movies")}
-              label="Movies"
+              label="Películas"
             />
           </div>
         </nav>
@@ -102,7 +102,7 @@ const Navbar: React.FC = () => {
                   }}
                 >
                   <User className="h-4 w-4" />
-                  <span>Profile</span>
+                  <span>Perfil</span>
                   <motion.div
                     className="absolute bottom-0 left-1/2 h-0.5 bg-[#D4AF37] rounded-full"
                     initial={{ width: 0, x: "-50%" }}
@@ -122,7 +122,7 @@ const Navbar: React.FC = () => {
                 }}
               >
                 <LogOut className="h-4 w-4" />
-                <span>Logout</span>
+                <span>Cerrar Sesión</span>
                 <motion.div
                   className="absolute bottom-0 left-1/2 h-0.5 bg-[#D4AF37] rounded-full"
                   initial={{ width: 0, x: "-50%" }}
@@ -143,7 +143,7 @@ const Navbar: React.FC = () => {
                     color: "#E50914",
                   }}
                 >
-                  <span>Login</span>
+                  <span>Iniciar Sesión</span>
                   <motion.div
                     className="absolute bottom-0 left-1/2 h-0.5 bg-[#D4AF37] rounded-full"
                     initial={{ width: 0, x: "-50%" }}
@@ -164,7 +164,7 @@ const Navbar: React.FC = () => {
                   }}
                   transition={{ duration: 0.2 }}
                 >
-                  Register
+                  Registrarse
                 </motion.button>
               </Link>
             </>
@@ -218,13 +218,13 @@ const Navbar: React.FC = () => {
               <MobileNavLink
                 to="/"
                 isActive={isActive("/")}
-                label="Home"
+                label="Inicio"
                 onClick={() => setIsMenuOpen(false)}
               />
               <MobileNavLink
                 to="/movies"
                 isActive={isActive("/movies")}
-                label="Movies"
+                label="Películas"
                 onClick={() => setIsMenuOpen(false)}
               />
 
@@ -235,7 +235,7 @@ const Navbar: React.FC = () => {
                   <MobileNavLink
                     to="/profile"
                     isActive={isActive("/profile")}
-                    label="Profile"
+                    label="Perfil"
                     icon={<User className="h-4 w-4" />}
                     onClick={() => setIsMenuOpen(false)}
                   />
@@ -247,7 +247,7 @@ const Navbar: React.FC = () => {
                     }}
                   >
                     <LogOut className="h-4 w-4" />
-                    <span>Logout</span>
+                    <span>Cerrar Sesión</span>
                   </button>
                 </>
               ) : (
@@ -255,7 +255,7 @@ const Navbar: React.FC = () => {
                   <MobileNavLink
                     to="/login"
                     isActive={isActive("/login")}
-                    label="Login"
+                    label="Iniciar Sesión"
                     onClick={() => setIsMenuOpen(false)}
                   />
                   <Link to="/register" onClick={() => setIsMenuOpen(false)}>
@@ -266,7 +266,7 @@ const Navbar: React.FC = () => {
                         boxShadow: "0 0 10px rgba(212, 175, 55, 0.3)",
                       }}
                     >
-                      Register
+                      Registrarse
                     </motion.div>
                   </Link>
                 </>

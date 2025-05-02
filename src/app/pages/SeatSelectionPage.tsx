@@ -55,7 +55,7 @@ export const SeatSelectionPage: React.FC = () => {
         console.error("Error fetching data:", error);
         toast({
           title: "Error",
-          description: "Failed to load seat data. Please try again.",
+          description: "Error al cargar datos de asientos. Por favor, inténtalo de nuevo.",
           variant: "destructive",
         });
       } finally {
@@ -98,7 +98,7 @@ export const SeatSelectionPage: React.FC = () => {
       console.error("Error proceeding to reservation:", error);
       toast({
         title: "Error",
-        description: "Failed to process reservation. Please try again.",
+        description: "Error al procesar la reserva. Por favor, inténtalo de nuevo.",
         variant: "destructive",
       });
     }
@@ -123,7 +123,7 @@ export const SeatSelectionPage: React.FC = () => {
         className="text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500"
         variants={itemVariants}
       >
-        Select Your Seats
+        Selecciona tus Asientos
       </motion.h1>
       <Card className="bg-zinc-950 border-zinc-800">
         <CardContent className="p-8">
@@ -165,7 +165,7 @@ export const SeatSelectionPage: React.FC = () => {
         <CardContent className="p-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <div>
             <p className="text-xl font-semibold mb-2">
-              Selected Seats: {selectedSeats.join(", ") || "None"}
+              Asientos seleccionados: {selectedSeats.join(", ") || "Ninguno"}
             </p>
             <p className="text-2xl font-bold">
               Total: ${selectedSeats.length * 10}
@@ -177,7 +177,7 @@ export const SeatSelectionPage: React.FC = () => {
             disabled={selectedSeats.length === 0}
             onClick={handleProceed}
           >
-            Proceed to Payment
+            Proceder al Pago
             <ChevronRight className="ml-2 w-5 h-5" />
           </Button>
         </CardContent>

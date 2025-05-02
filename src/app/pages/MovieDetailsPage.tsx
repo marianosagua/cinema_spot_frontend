@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Play, Clock } from "lucide-react";
@@ -26,11 +25,11 @@ const formatDateTab = (date: Date): string => {
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
-  if (isSameDay(date, today)) return "Today";
-  if (isSameDay(date, tomorrow)) return "Tomorrow";
+  if (isSameDay(date, today)) return "Hoy";
+  if (isSameDay(date, tomorrow)) return "Mañana";
 
-  // Capitalize first letter of weekday name in English
-  const weekday = date.toLocaleDateString("en-US", { weekday: "long" });
+  // Usar nomenclatura en español para los días de la semana
+  const weekday = date.toLocaleDateString("es-ES", { weekday: "long" });
   return weekday.charAt(0).toUpperCase() + weekday.slice(1);
 };
 
@@ -43,7 +42,7 @@ const formatTime = (dateString: string): string => {
       hour12: true,
     });
   } catch (e) {
-    return "Invalid Time";
+    return "Hora no válida";
   }
 };
 
@@ -210,12 +209,12 @@ export const MovieDetailsPage: React.FC = () => {
                   onClick={toggleTrailer}
                 >
                   <Play className="h-4 w-4" />
-                  {showTrailer ? "Hide Trailer" : "Watch Trailer"}
+                  {showTrailer ? "Ocultar Trailer" : "Ver Trailer"}
                 </Button>
               </div>
 
               <div className="md:hidden">
-                <h2 className="text-xl font-bold font-oswald mb-2">Synopsis</h2>
+                <h2 className="text-xl font-bold font-oswald mb-2">Sinopsis</h2>
                 <p className="text-[#E0E0E0] font-openSans mb-6 line-clamp-3">
                   {movie.synopsis}
                 </p>
@@ -232,7 +231,7 @@ export const MovieDetailsPage: React.FC = () => {
             <div className="aspect-video relative rounded-lg overflow-hidden border-2 border-[#D4AF37]/30">
               <iframe
                 src={movie.trailer}
-                title={`${movie.title} Trailer`}
+                title={`Trailer de ${movie.title}`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 className="absolute inset-0 w-full h-full"
@@ -248,13 +247,13 @@ export const MovieDetailsPage: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {/* Synopsis */}
             <div className="md:col-span-2">
-              <h2 className="text-2xl font-bold font-oswald mb-4">Synopsis</h2>
+              <h2 className="text-2xl font-bold font-oswald mb-4">Sinopsis</h2>
               <p className="text-[#E0E0E0] font-openSans mb-8">
                 {movie.synopsis}
               </p>
 
               <h2 className="text-2xl font-bold font-oswald mb-4">
-                Additional Details
+                Detalles Adicionales
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                 <div>
@@ -264,11 +263,11 @@ export const MovieDetailsPage: React.FC = () => {
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold mb-1">Rating</h3>
+                  <h3 className="text-white font-semibold mb-1">Clasificación</h3>
                   <p className="text-[#E0E0E0] font-openSans">{movie.rating}</p>
                 </div>
                 <div className="md:col-span-2">
-                  <h3 className="text-white font-semibold mb-1">Cast</h3>
+                  <h3 className="text-white font-semibold mb-1">Reparto</h3>
                   {cast.length > 0 ? (
                     <div className="flex flex-wrap gap-4 mt-2">
                       {cast.map((actor) => (
@@ -284,7 +283,7 @@ export const MovieDetailsPage: React.FC = () => {
                     </div>
                   ) : (
                     <p className="text-[#E0E0E0] font-openSans">
-                      No cast information available.
+                      No hay información disponible sobre el reparto.
                     </p>
                   )}
                 </div>
@@ -293,7 +292,7 @@ export const MovieDetailsPage: React.FC = () => {
 
             {/* Showtimes - New Structure */}
             <div>
-              <h2 className="text-2xl font-bold font-oswald mb-4">Schedules</h2>
+              <h2 className="text-2xl font-bold font-oswald mb-4">Horarios</h2>
               {availableDates.length > 0 ? (
                 <div className="bg-[#1E1E1E] rounded-lg p-1 mb-4 flex space-x-1">
                   {/* Date Tabs */}
@@ -354,11 +353,11 @@ export const MovieDetailsPage: React.FC = () => {
                       {selectedShowtime && (
                         <div className="mt-4 p-4 bg-[#121212] rounded-lg">
                           <p className="text-[#E0E0E0] mb-4">
-                            Selected:{" "}
+                            Seleccionado:{" "}
                             <span className="text-white">
                               {formatTime(selectedShowtime.start_time)}
                             </span>{" "}
-                            on{" "}
+                            el{" "}
                             <span className="text-white">
                               {selectedDate
                                 ? formatDateTab(selectedDate)
@@ -370,7 +369,7 @@ export const MovieDetailsPage: React.FC = () => {
                               to={`/movies/${id}/seats/${selectedShowtime.id}`}
                             >
                               <Button className="bg-[#E50914] hover:bg-[#FF3333] text-white">
-                                Select Seats
+                                Seleccionar Asientos
                               </Button>
                             </Link>
                           </div>
@@ -380,7 +379,7 @@ export const MovieDetailsPage: React.FC = () => {
                   </Card>
                 ) : availableDates.length === 0 ? (
                   <p className="text-[#E0E0E0]">
-                    No schedules available for this movie yet.
+                    No hay horarios disponibles para esta película todavía.
                   </p>
                 ) : null /* Handle case where selectedDate might be invalid briefly */
               }

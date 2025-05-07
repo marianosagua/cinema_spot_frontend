@@ -89,7 +89,7 @@ export const HomePage: React.FC = () => {
             {featuredMovies.map((movie: Movie) => (
               <div
                 key={movie.id}
-                className="group relative bg-[#1E1E1E] rounded-lg overflow-hidden transition-transform hover:scale-105 flex flex-col"
+                className="group relative bg-[#1E1E1E] rounded-lg overflow-hidden transition-transform hover:scale-105 flex flex-col cursor-pointer"
               >
                 <div className="aspect-[2/3] relative">
                   <img

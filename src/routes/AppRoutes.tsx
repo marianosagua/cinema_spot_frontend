@@ -30,7 +30,7 @@ export const AppRoutes = () => {
             <Route path="/reservation" element={<ReservationPage />} />
           </>
         ) : (
-          <Route path="/auth/*" element={<AuthRoutes />} />
+          <Route path="/autenticacion/*" element={<AuthRoutes />} />
         )}
 
         <Route path="*" element={<Navigate to={"/"} />} />

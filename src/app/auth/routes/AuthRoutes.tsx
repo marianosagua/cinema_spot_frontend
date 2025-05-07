@@ -1,11 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { LoginPage, RegisterPage } from "../pages";
+import { LoginPage, RegisterPage, ResetPasswordPage } from "../pages";
 
 export const AuthRoutes = () => {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/inicio-sesion" element={<LoginPage />} />
+      <Route path="/registro" element={<RegisterPage />} />
+      <Route path="/restablecer-contraseña" element={<ResetPasswordPage />} />
 
       <Route path="/*" element={<Navigate to={"/"} />} />
     </Routes>

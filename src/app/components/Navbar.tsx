@@ -4,15 +4,13 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, User, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import CinemaSpotLogo from "../images/CinemaSpotLogo.png";
+import { useAuthStore } from "@/hooks/useAuthStore";
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-
-  // For demo purposes, we'll consider the user logged in
-  // In a real app, this would come from an authentication context or API
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLogged, setLogoutUser } = useAuthStore();
 
   // Handle scroll effect
   useEffect(() => {
@@ -31,13 +29,6 @@ const Navbar: React.FC = () => {
   // Handle mobile menu toggle
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-  };
-
-  // Handle logout
-  const handleLogout = () => {
-    // In a real app, you would handle logout logic here
-    setIsLoggedIn(false);
-    // Redirect to home page or login page
   };
 
   // Check if the current path matches the given path
@@ -92,7 +83,7 @@ const Navbar: React.FC = () => {
 
         {/* Auth Buttons - Desktop */}
         <div className="hidden md:flex items-center gap-4">
-          {isLoggedIn ? (
+          {isLogged ? (
             <>
               <Link to="/profile">
                 <motion.div
@@ -116,7 +107,7 @@ const Navbar: React.FC = () => {
               </Link>
               <motion.button
                 className="relative text-white font-montserrat text-lg flex items-center gap-2 px-3 py-1.5 rounded-md"
-                onClick={handleLogout}
+                onClick={setLogoutUser}
                 whileHover={{
                   color: "#E50914",
                 }}
@@ -136,7 +127,7 @@ const Navbar: React.FC = () => {
             </>
           ) : (
             <>
-              <Link to="/login">
+              <Link to="/autenticacion/inicio-sesion">
                 <motion.div
                   className="relative text-white font-montserrat text-lg px-3 py-1.5 rounded-md"
                   whileHover={{
@@ -155,7 +146,7 @@ const Navbar: React.FC = () => {
                   />
                 </motion.div>
               </Link>
-              <Link to="/register">
+              <Link to="/autenticacion/registro">
                 <motion.button
                   className="bg-[#E50914] text-white font-montserrat text-lg px-5 py-1.5 rounded-md"
                   whileHover={{
@@ -230,7 +221,7 @@ const Navbar: React.FC = () => {
 
               <div className="h-px bg-[#D4AF37]/20 my-2"></div>
 
-              {isLoggedIn ? (
+              {isLogged ? (
                 <>
                   <MobileNavLink
                     to="/profile"
@@ -242,7 +233,7 @@ const Navbar: React.FC = () => {
                   <button
                     className="flex items-center gap-2 text-white font-montserrat text-lg py-2 px-3 rounded-md hover:bg-[#1A0000] hover:text-[#E50914] transition-colors"
                     onClick={() => {
-                      handleLogout();
+                      setLogoutUser();
                       setIsMenuOpen(false);
                     }}
                   >
@@ -253,12 +244,12 @@ const Navbar: React.FC = () => {
               ) : (
                 <>
                   <MobileNavLink
-                    to="/login"
-                    isActive={isActive("/login")}
+                    to="/autenticacion/inicio-sesion"
+                    isActive={isActive("/autenticacion/inicio-sesion")}
                     label="Iniciar Sesión"
                     onClick={() => setIsMenuOpen(false)}
                   />
-                  <Link to="/register" onClick={() => setIsMenuOpen(false)}>
+                  <Link to="/autenticacion/registro" onClick={() => setIsMenuOpen(false)}>
                     <motion.div
                       className="bg-[#E50914] text-white font-montserrat text-lg py-2 px-3 rounded-md text-center"
                       whileHover={{

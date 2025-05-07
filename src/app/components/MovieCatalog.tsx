@@ -3,7 +3,7 @@ import { getMovies } from "@/api/services/movieService";
 import { getCategories } from "@/api/services/getCategories";
 import { Movie } from "@/interfaces/movie";
 import { Category } from "@/interfaces/category";
-import { Search, ChevronLeft, ChevronRight, Filter, Calendar } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -65,10 +65,31 @@ export const MovieCatalog = () => {
     return String(categoryIdentifier);
   };
 
+  // Helper para verificar si una película coincide con la categoría seleccionada
+  const matchesSelectedCategory = (movie: Movie): boolean => {
+    if (appliedCategory === "all") {
+      return true;
+    }
+
+    // Si movie.category es el ID
+    if (String(movie.category) === appliedCategory) {
+      return true;
+    }
+
+    // Si movie.category es el nombre
+    const selectedCategory = categories.find(
+      (cat) => String(cat.id) === appliedCategory
+    );
+    if (selectedCategory && String(movie.category) === selectedCategory.name) {
+      return true;
+    }
+
+    return false;
+  };
+
   // Filtrado solo con los filtros aplicados
   const filteredMovies = movies.filter((movie) => {
-    const matchesCategory =
-      appliedCategory === "all" || String(movie.category) === appliedCategory;
+    const matchesCategory = matchesSelectedCategory(movie);
 
     const normalizeRating = (rating: string) =>
       rating.toLowerCase().replace("-", "");
@@ -105,17 +126,38 @@ export const MovieCatalog = () => {
     }
   };
 
+  // Para propósitos de depuración
+  const logFilterData = () => {
+    console.log("Categoría seleccionada:", appliedCategory);
+    console.log("Categorías disponibles:", categories);
+
+    if (appliedCategory !== "all") {
+      const selectedCatObj = categories.find(
+        (c) => String(c.id) === appliedCategory
+      );
+      console.log("Objeto de categoría seleccionada:", selectedCatObj);
+
+      const matchingMovies = movies.filter((movie) =>
+        matchesSelectedCategory(movie)
+      );
+      console.log(
+        "Películas que coinciden con esta categoría:",
+        matchingMovies
+      );
+    }
+  };
+
   return (
     <div className="container mx-auto px-4">
       {/* Filter Section */}
       <section className="mb-12 mt-8">
-        <Card className="bg-[#1E1E1E] border border-[#D4AF37]/30 shadow-lg shadow-black/20">
+        <Card className="bg-[#1E1E1E] border border-[#D4AF37]/30 shadow-lg shadow-black/20 cursor-pointer">
           <CardContent className="p-8">
             <h1 className="text-3xl md:text-4xl font-bold font-['Oswald'] text-center mb-8 text-white">
               Encuentra tu película
             </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
                 <label className="text-[#E0E0E0] font-semibold font-['Montserrat'] text-sm flex items-center gap-2">
                   <Filter size={16} className="text-[#D4AF37]" />
@@ -126,14 +168,17 @@ export const MovieCatalog = () => {
                     <SelectValue placeholder="Seleccionar categoría" />
                   </SelectTrigger>
                   <SelectContent className="bg-zinc-900 border-zinc-700 text-[#E0E0E0]">
-                    <SelectItem value="all" className="hover:bg-zinc-800 focus:bg-zinc-800">
+                    <SelectItem
+                      value="all"
+                      className="hover:bg-zinc-800 hover:text-[#D4AF37] transition-colors duration-200 rounded cursor-pointer"
+                    >
                       Todas las Categorías
                     </SelectItem>
                     {categories.map((cat) => (
-                      <SelectItem 
-                        key={cat.id} 
+                      <SelectItem
+                        key={cat.id}
                         value={String(cat.id)}
-                        className="hover:bg-zinc-800 focus:bg-zinc-800"
+                        className="hover:bg-zinc-800 hover:text-[#D4AF37] transition-colors duration-200 rounded cursor-pointer"
                       >
                         {cat.name}
                       </SelectItem>
@@ -144,20 +189,21 @@ export const MovieCatalog = () => {
 
               <div className="space-y-2">
                 <label className="text-[#E0E0E0] font-semibold font-['Montserrat'] text-sm flex items-center gap-2">
-                  <Calendar size={16} className="text-[#D4AF37]" />
-                  Fecha
-                </label>
-                <Input
-                  type="date"
-                  className="bg-zinc-800 text-[#E0E0E0] font-['Montserrat'] border-zinc-700 hover:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] focus:border-[#D4AF37] h-10 transition-all duration-200"
-                  disabled
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-[#E0E0E0] font-semibold font-['Montserrat'] text-sm flex items-center gap-2">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#D4AF37]">
-                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="text-[#D4AF37]"
+                  >
+                    <path
+                      d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
                   Clasificación
                 </label>
@@ -166,13 +212,36 @@ export const MovieCatalog = () => {
                     <SelectValue placeholder="Seleccionar clasificación" />
                   </SelectTrigger>
                   <SelectContent className="bg-zinc-900 border-zinc-700 text-[#E0E0E0]">
-                    <SelectItem value="all" className="hover:bg-zinc-800 focus:bg-zinc-800">
+                    <SelectItem
+                      value="all"
+                      className="hover:bg-zinc-800 hover:text-[#D4AF37] transition-colors duration-200 rounded cursor-pointer"
+                    >
                       Todas las Clasificaciones
                     </SelectItem>
-                    <SelectItem value="g" className="hover:bg-zinc-800 focus:bg-zinc-800">G</SelectItem>
-                    <SelectItem value="pg" className="hover:bg-zinc-800 focus:bg-zinc-800">PG</SelectItem>
-                    <SelectItem value="pg13" className="hover:bg-zinc-800 focus:bg-zinc-800">PG-13</SelectItem>
-                    <SelectItem value="r" className="hover:bg-zinc-800 focus:bg-zinc-800">R</SelectItem>
+                    <SelectItem
+                      value="g"
+                      className="hover:bg-zinc-800 hover:text-[#D4AF37] transition-colors duration-200 rounded cursor-pointer"
+                    >
+                      G
+                    </SelectItem>
+                    <SelectItem
+                      value="pg"
+                      className="hover:bg-zinc-800 hover:text-[#D4AF37] transition-colors duration-200 rounded cursor-pointer"
+                    >
+                      PG
+                    </SelectItem>
+                    <SelectItem
+                      value="pg13"
+                      className="hover:bg-zinc-800 hover:text-[#D4AF37] transition-colors duration-200 rounded cursor-pointer"
+                    >
+                      PG-13
+                    </SelectItem>
+                    <SelectItem
+                      value="r"
+                      className="hover:bg-zinc-800 hover:text-[#D4AF37] transition-colors duration-200 rounded cursor-pointer"
+                    >
+                      R
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -203,6 +272,7 @@ export const MovieCatalog = () => {
                   setAppliedRating(rating);
                   setAppliedSearch(search);
                   setCurrentPage(1);
+                  logFilterData(); // Solo para depuración
                 }}
               >
                 Aplicar Filtros
@@ -222,16 +292,20 @@ export const MovieCatalog = () => {
           {loading ? (
             <div className="col-span-full text-center text-white py-16">
               <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#E50914] mb-4"></div>
-              <p className="text-lg font-['Montserrat']">Cargando películas...</p>
+              <p className="text-lg font-['Montserrat']">
+                Cargando películas...
+              </p>
             </div>
           ) : currentMovies.length === 0 ? (
             <div className="col-span-full text-center text-white py-16">
-              <p className="text-lg font-['Montserrat']">No se encontraron películas.</p>
+              <p className="text-lg font-['Montserrat']">
+                No se encontraron películas.
+              </p>
             </div>
           ) : (
             currentMovies.map((movie) => (
-              <Link key={movie.id} to={`/movies/${movie.id}`} className="block">
-                <Card className="bg-[#1E1E1E] border border-zinc-800 hover:border-[#D4AF37]/30 overflow-hidden transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 flex flex-col">
+              <Link key={movie.id} to={`/movies/${movie.id}`} className="block h-full">
+                <Card className="bg-[#1E1E1E] border border-zinc-800 hover:border-[#D4AF37]/30 overflow-hidden transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 flex flex-col h-full">
                   <div className="aspect-[2/3] relative border-b border-[#D4AF37]/30">
                     <img
                       src={movie.poster || "/placeholder.svg"}
@@ -239,16 +313,18 @@ export const MovieCatalog = () => {
                       className="object-cover w-full h-full"
                     />
                   </div>
-                  <CardContent className="p-4 text-center flex flex-col flex-grow">
-                    <h3 className="text-xl font-semibold font-['Montserrat'] text-white mb-2">
-                      {movie.title}
-                    </h3>
-                    <p className="text-sm text-[#E0E0E0] font-['Open_Sans'] mb-4">
-                      {getDisplayCategoryName(movie.category)} |{" "}
-                      {movie.duration}
-                    </p>
+                  <CardContent className="p-4 text-center flex flex-col flex-grow justify-between">
+                    <div>
+                      <h3 className="text-xl font-semibold font-['Montserrat'] text-white mb-2 line-clamp-2 h-14">
+                        {movie.title}
+                      </h3>
+                      <p className="text-sm text-[#E0E0E0] font-['Open_Sans'] mb-4">
+                        {getDisplayCategoryName(movie.category)} |{" "}
+                        {movie.duration}
+                      </p>
+                    </div>
                     <Button
-                      className="w-full bg-[#E50914] hover:bg-[#FF3333] text-white mt-auto transition-all duration-200"
+                      className="w-full bg-[#E50914] hover:bg-[#FF3333] text-white transition-all duration-200"
                       onClick={(e) => e.preventDefault()}
                     >
                       Ver Detalles

@@ -2,7 +2,7 @@ import type React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-cinema-background shadow-[0_-2px_10px_rgba(0,0,0,0.15)] mt-10">
+    <footer className="bg-cinema-background shadow-[0_-2px_10px_rgba(0,0,0,0.15)] mt-10 border-t-2 border-[#D4AF37]/50">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between py-6 gap-3 md:gap-6">
           <div className="flex items-center gap-2 mb-1 md:mb-0">

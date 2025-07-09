@@ -131,6 +131,18 @@ export const SeatSelectionPage: React.FC = () => {
     }
   };
 
+  // Función para formatear fecha DD/MM/YYYY
+  const formatDate = (dateStr: string) => {
+    if (!dateStr) return "-";
+    const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return dateStr;
+    return date.toLocaleDateString("es-ES", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+
   const handleProceed = async () => {
     try {
       const seatsFiltered = seats.filter((seat) =>
@@ -241,7 +253,7 @@ export const SeatSelectionPage: React.FC = () => {
               </p>
               {functionDate && (
                 <div className="mt-2 text-[#FFD700] font-semibold">
-                  Fecha de la función: {functionDate}
+                  Fecha de la función: {formatDate(functionDate)}
                 </div>
               )}
             </div>

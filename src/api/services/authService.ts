@@ -9,6 +9,21 @@ interface ForgotPasswordResponse {
   message: string;
 }
 
+interface ValidateUserRequest {
+  email: string;
+  userId: string;
+}
+
+interface ValidateUserResponse {
+  isValid: boolean;
+  message: string;
+  user?: {
+    id: string;
+    email: string;
+    name: string;
+  };
+}
+
 export const forgotPassword = async (
   data: ForgotPasswordRequest
 ): Promise<ForgotPasswordResponse> => {
@@ -28,5 +43,24 @@ export const forgotPassword = async (
     throw new Error(
       "Error de conexión al solicitar el restablecimiento de contraseña"
     );
+  }
+};
+
+export const validateUserByEmail = async (
+  data: ValidateUserRequest
+): Promise<ValidateUserResponse> => {
+  try {
+    const response = await api.post<ValidateUserResponse>(
+      `/api/auth/validate-email/${data.userId}`,
+      { email: data.email }
+    );
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError && error.response) {
+      throw new Error(
+        error.response.data.message || "Error al validar el usuario"
+      );
+    }
+    throw new Error("Error de conexión al validar el usuario");
   }
 };

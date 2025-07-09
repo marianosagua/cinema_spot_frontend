@@ -64,7 +64,6 @@ export const ReservationPage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    console.log(showtime);
   }, []);
 
   const handleComplete = async () => {
@@ -85,15 +84,12 @@ export const ReservationPage: React.FC = () => {
         )
       );
 
-      toast({
-        title: "Reserva Completada",
-        description: "Tu reserva ha sido completada exitosamente.",
-      });
-
+      // Redirigir a la página de pago exitoso pasando los datos del ticket con un pequeño delay
+      const ticketData = { movie, showtime, seats, price, functionDate, room: showtime?.room };
+      setResetReservation();
       setTimeout(() => {
-        setResetReservation();
-        navigate("/");
-      }, 3000);
+        navigate("/pago-exitoso", { state: ticketData });
+      }, 1500);
     } catch (error) {
       console.error(error);
       toast({

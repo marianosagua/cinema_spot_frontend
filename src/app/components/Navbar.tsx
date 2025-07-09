@@ -60,8 +60,8 @@ const Navbar: React.FC = () => {
           <motion.span
             className="text-2xl font-bold font-oswald tracking-wider text-white"
             whileHover={{
-              color: "#E50914",
-              textShadow: "0 0 8px rgba(229, 9, 20, 0.3)",
+              opacity: 0.85,
+              scale: 1.02,
             }}
             transition={{ duration: 0.2 }}
           >
@@ -249,7 +249,10 @@ const Navbar: React.FC = () => {
                     label="Iniciar Sesión"
                     onClick={() => setIsMenuOpen(false)}
                   />
-                  <Link to="/autenticacion/registro" onClick={() => setIsMenuOpen(false)}>
+                  <Link
+                    to="/autenticacion/registro"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
                     <motion.div
                       className="bg-[#E50914] text-white font-montserrat text-lg py-2 px-3 rounded-md text-center"
                       whileHover={{
@@ -281,27 +284,27 @@ const NavLink: React.FC<NavLinkProps> = ({ to, isActive, label }) => {
   return (
     <Link to={to}>
       <motion.div
-        className={`relative font-montserrat text-lg px-3 py-1.5 rounded-md ${
+        className={`relative font-montserrat text-lg px-4 py-2 rounded-md ${
           isActive
-            ? "bg-[#1A0000] text-white"
-            : "text-white hover:text-[#E50914]"
+            ? "bg-black/30 text-white font-medium"
+            : "text-white hover:text-white"
         }`}
         whileHover={!isActive ? { y: -1 } : {}}
       >
         <span>{label}</span>
         {isActive && (
           <motion.div
-            className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4AF37] rounded-full"
+            className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#D4AF37] to-[#D4AF37]/60 rounded-full"
             layoutId="activeNavIndicator"
           />
         )}
         {!isActive && (
           <motion.div
-            className="absolute bottom-0 left-1/2 h-0.5 bg-[#D4AF37] rounded-full"
+            className="absolute bottom-0 left-1/2 h-0.5 bg-white/40 rounded-full"
             initial={{ width: 0, x: "-50%" }}
             whileHover={{
-              width: "80%",
-              x: "-40%",
+              width: "60%",
+              x: "-30%",
             }}
             transition={{ duration: 0.2 }}
           />
@@ -332,8 +335,8 @@ const MobileNavLink: React.FC<MobileNavLinkProps> = ({
       <motion.div
         className={`flex items-center gap-2 font-montserrat text-lg py-2 px-3 rounded-md ${
           isActive
-            ? "bg-[#1A0000] text-[#E50914] border-l-2 border-[#D4AF37]"
-            : "text-white hover:bg-[#1A0000] hover:text-[#E50914] transition-colors"
+            ? "bg-black/30 text-white font-medium border-l-2 border-[#D4AF37]"
+            : "text-white hover:bg-black/20 transition-colors"
         }`}
         whileTap={{ scale: 0.98 }}
       >

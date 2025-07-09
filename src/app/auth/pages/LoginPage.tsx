@@ -24,6 +24,7 @@ export const LoginPage = () => {
   const { setLoginUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   // Get current values for validation highlighting
   const email = watch("email");
@@ -46,8 +47,12 @@ export const LoginPage = () => {
   // Handle form submission
   const onSubmit = async (data: IformInput) => {
     setIsLoading(true);
+    setLoginError(null);
     try {
-      await setLoginUser(data.email, data.password);
+      const result = await setLoginUser(data.email, data.password);
+      if (typeof result === "string") {
+        setLoginError(result);
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -57,8 +62,6 @@ export const LoginPage = () => {
 
   return (
     <section className="relative min-h-screen w-full flex items-center justify-center">
-      {/* Fondo eliminado */}
-      {/* Overlay eliminado */}
       <div className="container mx-auto px-4 py-16 z-10">
         <motion.div
           className="max-w-md mx-auto"
@@ -195,6 +198,14 @@ export const LoginPage = () => {
                     </div>
                   )}
                 </Button>
+
+                {loginError && (
+                  <div className="bg-red-500/10 border border-red-500/20 rounded-md p-3">
+                    <p className="text-red-400 text-sm font-['Open_Sans'] text-center">
+                      {loginError}
+                    </p>
+                  </div>
+                )}
 
                 <div className="text-center">
                   <Link

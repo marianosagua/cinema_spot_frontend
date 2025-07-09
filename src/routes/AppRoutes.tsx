@@ -6,9 +6,9 @@ import {
   HomePage,
   MovieDetailsPage,
   MoviesPage,
-  ProfilePage,
   ReservationPage,
-  SeatSelectionPage,
+  SeleccionAsientosPage,
+  ProfilePage,
 } from "@/app/pages";
 
 export const AppRoutes = () => {
@@ -22,12 +22,12 @@ export const AppRoutes = () => {
         <Route path="/movies/:id" element={<MovieDetailsPage />} />
         <Route
           path="/movies/:id/seats/:showtimeId"
-          element={<SeatSelectionPage />}
+          element={<SeleccionAsientosPage />}
         />
         {isLogged ? (
           <>
-            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/reservation" element={<ReservationPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
           </>
         ) : (
           <Route path="/autenticacion/*" element={<AuthRoutes />} />

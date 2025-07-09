@@ -12,10 +12,9 @@ const defaultUser = {
   first_name: "",
   last_name: "",
   email: "",
-  password: "",
   role: "",
-  created_at: "",
-  updated_at: "",
+  created_at: new Date(),
+  updated_at: new Date(),
   email_validated: false,
 };
 
@@ -43,10 +42,9 @@ export const authSlice = createSlice({
         first_name: "",
         last_name: "",
         email: "",
-        password: "",
         role: "",
-        created_at: "",
-        updated_at: "",
+        created_at: new Date(),
+        updated_at: new Date(),
         email_validated: false,
       };
       state.isLogged = false;

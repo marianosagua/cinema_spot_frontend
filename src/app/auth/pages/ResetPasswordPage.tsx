@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import { forgotPassword } from "@/api/services/authService";
 
 interface ResetPasswordInput {
   email: string;
@@ -22,6 +24,7 @@ export const ResetPasswordPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const email = watch("email");
+  const { toast } = useToast();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -31,12 +34,28 @@ export const ResetPasswordPage = () => {
   }, []);
 
   const onSubmit = async (data: ResetPasswordInput) => {
-    setIsLoading(true);
-    // Aquí iría la lógica real de envío de email
-    setTimeout(() => {
+    try {
+      setIsLoading(true);
+      await forgotPassword(data);
       setEmailSent(true);
+      toast({
+        title: "¡Éxito!",
+        description:
+          "Se han enviado las instrucciones a tu correo electrónico.",
+        variant: "default",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Ocurrió un error al procesar tu solicitud",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (

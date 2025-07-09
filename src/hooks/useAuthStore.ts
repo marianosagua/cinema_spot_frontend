@@ -4,22 +4,20 @@ import axios, { AxiosError } from "axios";
 import { login, logout, updateUserData } from "@/store/slices";
 import { useNavigate } from "react-router-dom";
 import { FormRegisterInput } from "@/app/auth/pages";
-import { useToast } from "./use-toast";
 import { User } from "@/interfaces";
 
 export const useAuthStore = () => {
   const { userData, isLogged, token } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   const setLoginUser = async (
     email: string,
     password: string
-  ): Promise<void> => {
+  ): Promise<string | void> => {
     try {
       const { data } = await axios.post(
-        `${apiUrl}/api/auth/login`,
+        `${apiUrl}/api/auth/iniciar-sesion`,
         {
           email,
           password,
@@ -37,14 +35,11 @@ export const useAuthStore = () => {
       navigate("/");
     } catch (error) {
       const axiosError = error as AxiosError;
-      toast({
-        variant: "destructive",
-        title: "Login Error",
-        description:
-          (axiosError.response?.data as { error?: string })?.error ||
-          "Unexpected error occurred",
-        duration: 5000,
-      });
+      const errorMessage =
+        (axiosError.response?.data as { error?: string })?.error ||
+        "Unexpected error occurred";
+
+      return errorMessage;
     }
   };
 
@@ -57,10 +52,10 @@ export const useAuthStore = () => {
 
   const setRegisterUser = async (
     dataUser: FormRegisterInput
-  ): Promise<void> => {
+  ): Promise<string | void> => {
     try {
       const { data } = await axios.post(
-        `${apiUrl}/api/auth/register`,
+        `${apiUrl}/api/auth/registro`,
         dataUser,
         {
           headers: {
@@ -75,14 +70,11 @@ export const useAuthStore = () => {
       navigate("/");
     } catch (error) {
       const axiosError = error as AxiosError;
-      toast({
-        variant: "destructive",
-        title: "Register Error",
-        description:
-          (axiosError.response?.data as { error?: string })?.error ||
-          "Unexpected error occurred",
-        duration: 5000,
-      });
+      const errorMessage =
+        (axiosError.response?.data as { error?: string })?.error ||
+        "Unexpected error occurred";
+
+      return errorMessage;
     }
   };
 

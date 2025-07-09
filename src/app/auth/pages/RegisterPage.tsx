@@ -26,6 +26,7 @@ export const RegisterPage = () => {
   const { setRegisterUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [registerError, setRegisterError] = useState<string | null>(null);
 
   // Get current values for validation highlighting
   const first_name = watch("first_name");
@@ -46,8 +47,12 @@ export const RegisterPage = () => {
 
   const onSubmit = async (data: FormRegisterInput) => {
     setIsLoading(true);
+    setRegisterError(null);
     try {
-      await setRegisterUser(data);
+      const result = await setRegisterUser(data);
+      if (typeof result === "string") {
+        setRegisterError(result);
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -93,7 +98,10 @@ export const RegisterPage = () => {
                 transition={{ duration: 0.5, delay: 0.6 }}
               >
                 <div className="space-y-2">
-                  <Label htmlFor="first_name" className="text-[#E0E0E0] font-['Open_Sans']">
+                  <Label
+                    htmlFor="first_name"
+                    className="text-[#E0E0E0] font-['Open_Sans']"
+                  >
                     Nombre
                   </Label>
                   <div className="relative">
@@ -126,7 +134,10 @@ export const RegisterPage = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="last_name" className="text-[#E0E0E0] font-['Open_Sans']">
+                  <Label
+                    htmlFor="last_name"
+                    className="text-[#E0E0E0] font-['Open_Sans']"
+                  >
                     Apellido
                   </Label>
                   <div className="relative">
@@ -139,7 +150,8 @@ export const RegisterPage = () => {
                         required: "El apellido es obligatorio",
                         minLength: {
                           value: 2,
-                          message: "El apellido debe tener al menos 2 caracteres",
+                          message:
+                            "El apellido debe tener al menos 2 caracteres",
                         },
                       })}
                       className={`pl-10 bg-[#E0E0E0] text-black font-['Open_Sans'] ${
@@ -159,7 +171,10 @@ export const RegisterPage = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-[#E0E0E0] font-['Open_Sans']">
+                  <Label
+                    htmlFor="email"
+                    className="text-[#E0E0E0] font-['Open_Sans']"
+                  >
                     Email
                   </Label>
                   <div className="relative">
@@ -192,7 +207,10 @@ export const RegisterPage = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-[#E0E0E0] font-['Open_Sans']">
+                  <Label
+                    htmlFor="password"
+                    className="text-[#E0E0E0] font-['Open_Sans']"
+                  >
                     Contraseña
                   </Label>
                   <div className="relative">
@@ -205,7 +223,8 @@ export const RegisterPage = () => {
                         required: "La contraseña es obligatoria",
                         minLength: {
                           value: 6,
-                          message: "La contraseña debe tener al menos 6 caracteres",
+                          message:
+                            "La contraseña debe tener al menos 6 caracteres",
                         },
                       })}
                       className={`pl-10 bg-[#E0E0E0] text-black font-['Open_Sans'] ${
@@ -252,6 +271,14 @@ export const RegisterPage = () => {
                     </div>
                   )}
                 </Button>
+
+                {registerError && (
+                  <div className="bg-red-500/10 border border-red-500/20 rounded-md p-3">
+                    <p className="text-red-400 text-sm font-['Open_Sans'] text-center">
+                      {registerError}
+                    </p>
+                  </div>
+                )}
 
                 <div className="pt-4 border-t border-gray-600 text-center">
                   <p className="text-[#E0E0E0] text-sm font-['Open_Sans'] mb-3">

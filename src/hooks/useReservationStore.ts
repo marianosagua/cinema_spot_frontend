@@ -6,7 +6,7 @@ import {
 } from "../store/slices/reservationSlice";
 
 export const useReservationStore = () => {
-  const { movie, showtime, seats, price } = useAppSelector(
+  const { movie, showtime, seats, price, functionDate } = useAppSelector(
     (state) => state.reservation
   );
   const dispatch = useAppDispatch();
@@ -27,5 +27,6 @@ export const useReservationStore = () => {
     showtime,
     seats,
     price,
+    functionDate,
   };
 };

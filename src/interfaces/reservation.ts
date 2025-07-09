@@ -37,3 +37,9 @@ export interface UserData {
   last_name: string;
   email: string;
 }
+
+export interface DataReservationSend {
+  user_id: string;
+  showtime_id: string;
+  seat_ids: string[];
+}

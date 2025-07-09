@@ -7,8 +7,8 @@ import {
   MovieDetailsPage,
   MoviesPage,
   ReservationPage,
-  SeleccionAsientosPage,
   ProfilePage,
+  SeatSelectionPage,
 } from "@/app/pages";
 
 export const AppRoutes = () => {
@@ -22,7 +22,7 @@ export const AppRoutes = () => {
         <Route path="/movies/:id" element={<MovieDetailsPage />} />
         <Route
           path="/movies/:id/seats/:showtimeId"
-          element={<SeleccionAsientosPage />}
+          element={<SeatSelectionPage />}
         />
         {isLogged ? (
           <>

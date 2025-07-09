@@ -10,7 +10,7 @@ import { getCastByMovie } from "@/api/services/actorsService";
 import { Movie, Rating, Showtime } from "@/interfaces";
 import { Actor } from "@/interfaces/actor";
 
-// Helper function to check if two dates are the same day
+// Función auxiliar para verificar si dos fechas son el mismo día
 const isSameDay = (date1: Date, date2: Date): boolean => {
   return (
     date1.getFullYear() === date2.getFullYear() &&
@@ -19,7 +19,7 @@ const isSameDay = (date1: Date, date2: Date): boolean => {
   );
 };
 
-// Helper function to format date for tabs
+// Función auxiliar para formatear fecha en las pestañas
 const formatDateTab = (date: Date): string => {
   const today = new Date();
   const tomorrow = new Date(today);
@@ -33,7 +33,7 @@ const formatDateTab = (date: Date): string => {
   return weekday.charAt(0).toUpperCase() + weekday.slice(1);
 };
 
-// Helper function to format time
+// Función auxiliar para formatear hora
 const formatTime = (dateString: string): string => {
   try {
     return new Date(dateString).toLocaleTimeString([], {
@@ -72,22 +72,23 @@ export const MovieDetailsPage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
     const fetchMovieDetails = async () => {
       try {
         const data = await getMovie(id);
-        // Ensure showtimes are sorted by start_time
+        // Asegurarse de que los horarios estén ordenados por hora de inicio
         const sortedShowtimes = data.showtimes.sort(
           (a: Showtime, b: Showtime) =>
             new Date(a.start_time).getTime() - new Date(b.start_time).getTime()
         );
         setMovie({ ...data, showtimes: sortedShowtimes });
 
-        // Set initial selected date if showtimes exist
+        // Establecer la fecha seleccionada inicial si existen horarios
         if (sortedShowtimes.length > 0) {
           setSelectedDate(new Date(sortedShowtimes[0].start_time));
         }
       } catch (error) {
-        console.error("Error fetching movie details:", error);
+        console.error("Error al obtener detalles de la película:", error);
       }
     };
 
@@ -102,7 +103,7 @@ export const MovieDetailsPage: React.FC = () => {
           setCast(castArray);
         }
       } catch (error) {
-        console.error("Error fetching cast:", error);
+        console.error("Error al obtener el reparto:", error);
         setCast([]);
       }
     };
@@ -111,24 +112,24 @@ export const MovieDetailsPage: React.FC = () => {
     fetchCast();
   }, [id]);
 
-  // Group showtimes by date and get unique dates
+  // Agrupar horarios por fecha y obtener fechas únicas
   const { showtimesByDate, availableDates } = useMemo(() => {
     const grouped: { [key: string]: Showtime[] } = {};
     const dates: Date[] = [];
     movie.showtimes.forEach((showtime) => {
       try {
         const date = new Date(showtime.start_time);
-        const dateString = date.toDateString(); // Use date string as key
+        const dateString = date.toDateString(); // Usar string de fecha como clave
         if (!grouped[dateString]) {
           grouped[dateString] = [];
           dates.push(date);
         }
         grouped[dateString].push(showtime);
       } catch (e) {
-        console.error("Invalid date in showtime:", showtime);
+        console.error("Fecha inválida en horario:", showtime);
       }
     });
-    // Sort dates chronologically
+    // Ordenar fechas cronológicamente
     dates.sort((a, b) => a.getTime() - b.getTime());
     return { showtimesByDate: grouped, availableDates: dates };
   }, [movie.showtimes]);
@@ -137,25 +138,25 @@ export const MovieDetailsPage: React.FC = () => {
     return movie.showtimes.find((st) => st.id === selectedShowtimeId) || null;
   }, [selectedShowtimeId, movie.showtimes]);
 
-  // Toggle trailer visibility
+  // Alternar visibilidad del tráiler
   const toggleTrailer = () => {
     setShowTrailer(!showTrailer);
   };
 
-  // Handle date selection
+  // Manejar selección de fecha
   const selectDate = (date: Date) => {
     setSelectedDate(date);
-    setSelectedShowtimeId(null); // Reset time selection when date changes
+    setSelectedShowtimeId(null); // Reiniciar selección de horario cuando cambia la fecha
   };
 
-  // Handle showtime selection
+  // Manejar selección de horario
   const selectShowtime = (showtimeId: string) => {
     setSelectedShowtimeId(showtimeId);
   };
 
   return (
     <>
-      {/* Movie Hero Section */}
+      {/* Sección principal de la película */}
       <section className="relative -mt-24">
         <div className="absolute inset-0 z-0">
           <img
@@ -168,7 +169,7 @@ export const MovieDetailsPage: React.FC = () => {
 
         <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
           <div className="flex flex-col md:flex-row gap-8 items-start">
-            {/* Movie Poster */}
+            {/* Póster de la película */}
             <div className="hidden md:block w-64 flex-shrink-0">
               <div className="aspect-[2/3] relative rounded-lg overflow-hidden border-2 border-[#D4AF37]/30">
                 <img
@@ -179,7 +180,7 @@ export const MovieDetailsPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Movie Details */}
+            {/* Detalles de la película */}
             <div className="flex-1">
               <h1 className="text-3xl md:text-5xl font-bold font-oswald mb-2">
                 {movie.title}
@@ -224,7 +225,7 @@ export const MovieDetailsPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Trailer Section (Conditional) */}
+      {/* Sección del tráiler (condicional) */}
       {showTrailer && (
         <section className="bg-[#1E1E1E] py-8">
           <div className="container mx-auto px-4">
@@ -241,11 +242,11 @@ export const MovieDetailsPage: React.FC = () => {
         </section>
       )}
 
-      {/* Detailed Information Section */}
+      {/* Sección de información detallada */}
       <section className="py-12 bg-[#121212]">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Synopsis */}
+            {/* Sinopsis */}
             <div className="md:col-span-2">
               <h2 className="text-2xl font-bold font-oswald mb-4">Sinopsis</h2>
               <p className="text-[#E0E0E0] font-openSans mb-8">
@@ -263,7 +264,9 @@ export const MovieDetailsPage: React.FC = () => {
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold mb-1">Clasificación</h3>
+                  <h3 className="text-white font-semibold mb-1">
+                    Clasificación
+                  </h3>
                   <p className="text-[#E0E0E0] font-openSans">{movie.rating}</p>
                 </div>
                 <div className="md:col-span-2">
@@ -290,12 +293,12 @@ export const MovieDetailsPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Showtimes - New Structure */}
+            {/* Horarios - Nueva estructura */}
             <div>
               <h2 className="text-2xl font-bold font-oswald mb-4">Horarios</h2>
               {availableDates.length > 0 ? (
                 <div className="bg-[#1E1E1E] rounded-lg p-1 mb-4 flex space-x-1">
-                  {/* Date Tabs */}
+                  {/* Pestañas de fechas */}
                   {availableDates.map((date) => (
                     <Button
                       key={date.toISOString()}
@@ -321,7 +324,7 @@ export const MovieDetailsPage: React.FC = () => {
                 selectedDate && showtimesByDate[selectedDate.toDateString()] ? (
                   <Card className="border-none bg-[#1E1E1E]">
                     <CardContent className="p-4">
-                      {/* Time Buttons */}
+                      {/* Botones de horarios */}
                       <div className="flex flex-wrap gap-2">
                         {showtimesByDate[selectedDate.toDateString()].map(
                           (showtime) => (
@@ -349,7 +352,7 @@ export const MovieDetailsPage: React.FC = () => {
                         )}
                       </div>
 
-                      {/* Selection Info & Actions */}
+                      {/* Información de selección y acciones */}
                       {selectedShowtime && (
                         <div className="mt-4 p-4 bg-[#121212] rounded-lg">
                           <p className="text-[#E0E0E0] mb-4">
@@ -367,6 +370,7 @@ export const MovieDetailsPage: React.FC = () => {
                           <div className="flex gap-2">
                             <Link
                               to={`/movies/${id}/seats/${selectedShowtime.id}`}
+                              state={{ functionDate: selectedShowtime?.start_time }}
                             >
                               <Button className="bg-[#E50914] hover:bg-[#FF3333] text-white">
                                 Seleccionar Asientos
@@ -381,7 +385,7 @@ export const MovieDetailsPage: React.FC = () => {
                   <p className="text-[#E0E0E0]">
                     No hay horarios disponibles para esta película todavía.
                   </p>
-                ) : null /* Handle case where selectedDate might be invalid briefly */
+                ) : null /* Manejar el caso donde selectedDate podría ser inválido brevemente */
               }
             </div>
           </div>

@@ -1,9 +1,9 @@
 import axios from "axios";
 import { apiUrl } from "../variables";
-import { Reservation } from "@/interfaces/reservation";
+import { DataReservationSend } from "@/interfaces/reservation";
 import { Seat } from "@/interfaces";
 
-export const addReservationDB = async (data: Reservation) => {
+export const addReservationDB = async (data: DataReservationSend) => {
   const response = await axios.post(`${apiUrl}/api/reservations/`, data);
   return response.data;
 };

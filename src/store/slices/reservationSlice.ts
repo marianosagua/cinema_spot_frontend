@@ -1,4 +1,5 @@
 import { Movie, Seat, Showtime } from "@/interfaces";
+import { Rating, Name } from "@/interfaces/movie";
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface ReservationState {
@@ -6,6 +7,7 @@ export interface ReservationState {
   showtime?: Showtime;
   seats?: Seat[];
   price?: number;
+  functionDate?: string;
 }
 
 const getSessionItem = (key: string) => {
@@ -20,6 +22,7 @@ const initialState: ReservationState = {
   price: sessionStorage.getItem("price")
     ? parseFloat(sessionStorage.getItem("price")!)
     : 0,
+  functionDate: sessionStorage.getItem("functionDate") || undefined,
 };
 
 export const reservationSlice = createSlice({
@@ -31,6 +34,7 @@ export const reservationSlice = createSlice({
       state.showtime = action.payload.showtime;
       state.seats = action.payload.seats;
       state.price = action.payload.price;
+      state.functionDate = action.payload.functionDate;
 
       sessionStorage.setItem("movie", JSON.stringify(action.payload.movie));
       sessionStorage.setItem(
@@ -39,12 +43,18 @@ export const reservationSlice = createSlice({
       );
       sessionStorage.setItem("seats", JSON.stringify(action.payload.seats));
       sessionStorage.setItem("price", String(action.payload.price));
+      if (action.payload.functionDate) {
+        sessionStorage.setItem("functionDate", action.payload.functionDate);
+      } else {
+        sessionStorage.removeItem("functionDate");
+      }
     },
     resetReservation: (state) => {
       sessionStorage.removeItem("movie");
       sessionStorage.removeItem("showtime");
       sessionStorage.removeItem("seats");
       sessionStorage.removeItem("price");
+      sessionStorage.removeItem("functionDate");
 
       state.movie = {
         id: 0,
@@ -52,17 +62,25 @@ export const reservationSlice = createSlice({
         poster: "",
         category: "",
         description: "",
+        duration: "",
+        banner: "",
+        synopsis: "",
+        trailer: "",
+        rating: Rating.G,
+        director: "",
+        review: "",
+        showtimes: [],
       };
       state.showtime = {
         id: "",
-        movie: "",
         start_time: "",
         end_time: "",
-        room: "",
+        room: { id: "", name: Name.A1 },
         is_full: false,
       };
       state.seats = [];
       state.price = 0;
+      state.functionDate = undefined;
     },
   },
 });

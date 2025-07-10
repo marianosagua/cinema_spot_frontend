@@ -49,6 +49,17 @@ export const HomePage: React.FC = () => {
     navigate(`/movies/${movieId}`);
   };
 
+  // Función para formatear fecha a string legible
+  const formatDate = (date: Date | string) => {
+    if (!date) return "-";
+    const d = typeof date === "string" ? new Date(date) : date;
+    return d.toLocaleDateString("es-ES", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+
   return (
     <>
       {/* Hero Section */}
@@ -209,7 +220,7 @@ export const HomePage: React.FC = () => {
                     {movie.title}
                   </h3>
                   <p className="text-sm text-[#D4AF37] font-openSans mb-4">
-                    Estreno: {movie.release_date}
+                    Estreno: {formatDate(movie.release_date)}
                   </p>
                   <Button
                     variant="outline"
@@ -245,7 +256,7 @@ export const HomePage: React.FC = () => {
                           {movie.title}
                         </h3>
                         <p className="text-sm text-[#D4AF37] font-openSans mb-4">
-                          Estreno: {movie.release_date}
+                          Estreno: {formatDate(movie.release_date)}
                         </p>
                         <Button
                           variant="outline"

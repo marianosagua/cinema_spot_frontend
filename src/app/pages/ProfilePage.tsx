@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/dialog";
 
 export const ProfilePage = () => {
-  const { userData, setUpdateUserData } = useAuthStore();
+  const { userData, setUpdateUserData, token } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const [activeReservations, setActiveReservations] = useState<
     UserReservation[]
@@ -49,7 +49,10 @@ export const ProfilePage = () => {
     const fetchData = async () => {
       try {
         // Obtener datos actualizados del usuario
-        const updatedUserData = await getUserById(userData.id);
+        if (!token) {
+          throw new Error("Token no disponible");
+        }
+        const updatedUserData = await getUserById(userData.id, token);
         setUpdateUserData(updatedUserData);
 
         // Obtener las reservaciones

@@ -1,7 +1,14 @@
 export interface Actor {
-    movie:          number;
-    actor:          number;
-    movieTitle:     string;
-    actorFirstName: string;
-    actorLastName:  string;
+    id:          number;
+    first_name:  string;
+    last_name:   string;
+    age:         number;
+    nationality: Nationality;
+}
+
+export enum Nationality {
+    Australiano = "Australiano",
+    Británico = "Británico",
+    Canadiense = "Canadiense",
+    Estadounidense = "Estadounidense",
 }

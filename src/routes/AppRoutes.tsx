@@ -10,6 +10,7 @@ import {
   ProfilePage,
   SeatSelectionPage,
   PagoExitosoPage,
+  PanelAdminPage,
 } from "@/app/pages";
 
 export const AppRoutes = () => {
@@ -30,6 +31,7 @@ export const AppRoutes = () => {
             <Route path="/reservation" element={<ReservationPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/pago-exitoso" element={<PagoExitosoPage />} />
+            <Route path="/admin" element={<PanelAdminPage />} />
           </>
         ) : (
           <Route path="/autenticacion/*" element={<AuthRoutes />} />

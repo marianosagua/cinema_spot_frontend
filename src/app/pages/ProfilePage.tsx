@@ -131,6 +131,14 @@ export const ProfilePage = () => {
                           : "No Verificado"}
                       </Badge>
                     </div>
+                    {userData.role === "ADMIN" && (
+                      <button
+                        className="mt-4 w-full bg-gradient-to-r from-[#E50914] via-[#FF3333] to-[#E50914] text-white font-bold py-3 rounded-xl shadow-lg hover:from-[#FF3333] hover:to-[#E50914] hover:scale-105 transition-all duration-300 text-lg flex items-center justify-center gap-2 border-2 border-[#E50914] hover:border-[#FF3333]"
+                        onClick={() => navigate("/admin")}
+                      >
+                        Ir al panel
+                      </button>
+                    )}
                   </div>
                   {/* Botón de editar perfil eliminado */}
                 </CardContent>

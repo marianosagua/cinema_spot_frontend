@@ -39,3 +39,6 @@ export enum Name {
   B1 = "B1",
   C1 = "C1",
 }
+
+export type { Reparto as MovieCast } from "./reparto";
+

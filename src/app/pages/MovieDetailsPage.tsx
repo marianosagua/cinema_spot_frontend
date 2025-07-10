@@ -10,6 +10,9 @@ import { getCastByMovie } from "@/api/services/actorsService";
 import { Movie, Rating, Showtime } from "@/interfaces";
 import { Actor } from "@/interfaces/actor";
 
+// Tipo para la respuesta de la API de reparto
+type CastResponse = Actor[] | { cast: Actor[] };
+
 // Función auxiliar para verificar si dos fechas son el mismo día
 const isSameDay = (date1: Date, date2: Date): boolean => {
   return (
@@ -95,7 +98,7 @@ export const MovieDetailsPage: React.FC = () => {
     const fetchCast = async () => {
       try {
         if (id) {
-          const castData = await getCastByMovie(id);
+          const castData = await getCastByMovie(id) as CastResponse;
           // Si la API retorna un objeto con propiedad 'cast', usarla. Si es array directo, usarlo directo.
           const castArray = Array.isArray(castData)
             ? castData
@@ -275,11 +278,11 @@ export const MovieDetailsPage: React.FC = () => {
                     <div className="flex flex-wrap gap-4 mt-2">
                       {cast.map((actor) => (
                         <div
-                          key={actor.actor}
+                          key={actor.id}
                           className="flex items-center gap-2 bg-[#232323] rounded-lg px-3 py-2"
                         >
                           <span className="text-[#E0E0E0] font-openSans font-semibold">
-                            {actor.actorFirstName} {actor.actorLastName}
+                            {actor.first_name} {actor.last_name}
                           </span>
                         </div>
                       ))}
